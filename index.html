@@ -54,9 +54,9 @@ a{color:var(--ink)}
 .htrack{width:clamp(96px,22vw,180px); height:6px; border:1px solid var(--line-2); border-radius:3px; overflow:hidden; background:#fff}
 .htrack i{display:block; height:100%; width:0; background:#C9C6C0; transition:width .4s ease}
 .sec #sum{margin-top:16px}
-.tgrid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:20px}
+.tgrid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:24px}
 @media (min-width:560px){ .tgrid{grid-template-columns:repeat(2,minmax(0,1fr))} }
-.idrow{display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; margin-bottom:-40px; scroll-margin-top:24px}
+.idrow{display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; margin-top:20px; scroll-margin-top:24px}
 .iderr{margin:0; font-size:.8125rem; color:#A23B2A}
 .idrow input[aria-invalid="true"]{border-color:#C0412E}
 .idrow label{font-size:.875rem; font-weight:500; white-space:nowrap}
@@ -99,7 +99,7 @@ a{color:var(--ink)}
 #copyBox{width:100%; box-sizing:border-box; min-height:120px; margin-top:10px; font:12px/1.5 ui-monospace,Menlo,Consolas,monospace; padding:12px; border-radius:2px; border:1px solid var(--line-2); background:#fff; color:var(--ink)}
 
 .subfoot{background:var(--sand)}
-.subfoot-in{display:flex; padding-block:20px; font-size:.6875rem; letter-spacing:.06em; color:var(--muted)}
+.subfoot-in{display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 24px; padding-block:20px; font-size:.6875rem; letter-spacing:.06em; color:var(--muted)}
 
 /* ---------- test display ---------- */
 #runner{position:fixed; inset:0; z-index:50; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
@@ -156,18 +156,20 @@ a{color:var(--ink)}
 .rtab div.key dd, .rtab div.key dt{color:var(--ink); font-weight:500}
 .note{font-size:.8125rem; color:var(--muted)}
 .eyebrow{margin:0; font-size:.6875rem; font-weight:500; line-height:1.4; letter-spacing:.18em; text-transform:uppercase; color:var(--muted)}
-.rgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr)); gap:10px}
+.rgrid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
 .rbox{display:flex; flex-direction:column; gap:6px; padding:12px 14px; border:1px solid var(--line-2); border-radius:16px; background:#fff; min-width:0}
 .rbox.key{background:var(--tint); border-color:transparent}
 .rl{font-size:.75rem; line-height:1.4; color:var(--muted)}
 .rbox.key .rl{color:var(--ink-2)}
+.rle{display:block; margin-top:2px; font-size:.6875rem; letter-spacing:.01em; opacity:.85}
 .rv{font-size:1.125rem; font-weight:500; line-height:1.3; font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
 
 .fix{font:300 56px/1 var(--font-body); color:var(--faint)}
 .word{font:700 clamp(80px, min(30vw,24vh), 220px)/1 var(--font-body)}
 .arws{display:flex; gap:clamp(4px,1.5vw,12px); color:var(--ink)}
 .arws svg{width:clamp(44px, min(15vw,11vh), 104px); height:auto}
-.nfb{position:absolute; left:0; right:0; bottom:18px; text-align:center; font-weight:500; font-size:1rem; min-height:1.5em}
+.nfb{position:absolute; inset:0; display:grid; place-items:center; background:var(--bg)}
+.nfb:empty{display:none}
 .fbk{font-size:1.75rem; font-weight:500}
 .ok{color:#2E7D4F} .err{color:#B23B2A} .slow{color:#A26B10}
 .dccs{display:flex; flex-direction:column; align-items:center; gap:22px}
@@ -179,8 +181,7 @@ a{color:var(--ink)}
 .wstage{display:flex; flex-direction:column; align-items:center; gap:16px}
 .wcard{width:clamp(110px, min(34vw,26vh), 230px); border-radius:14px; background:var(--glass-bg); box-shadow:var(--glass-edge), var(--shadow); padding:6px}
 .wcard svg{display:block; width:100%; height:auto}
-.wfb{min-height:1.6em; font-size:1.375rem; font-weight:500}
-.whint{font-size:.8125rem; color:var(--muted); text-align:center}
+.wfb{height:3.25rem; display:grid; place-items:center}
 .nbgrid{display:grid; grid-template-columns:repeat(3,1fr); width:min(84vw,50vh,520px); aspect-ratio:1; max-width:100%; gap:clamp(8px,2.5vw,16px)}
 .nbc{border-radius:8px; display:grid; place-items:center}
 .nbc.on{background:#3F7EFF}
@@ -198,8 +199,6 @@ a{color:var(--ink)}
   .demo .dword{font-size:56px}
   .mini{width:58px; height:58px}
   .fbk{font-size:2rem}
-  .nfb{font-size:1.125rem; bottom:28px}
-  .wfb{font-size:1.625rem}
 }
 @media (prefers-reduced-motion: reduce){ .rbtn,.task{transition:none} }
 /* flat overrides for the test display */
@@ -220,6 +219,7 @@ a{color:var(--ink)}
 .digit{font:500 clamp(96px,30vmin,180px)/1 var(--font-body)}
 .dsin{display:flex; flex-direction:column; align-items:center; gap:18px; padding:0 16px}
 .dsq{margin:0; font-size:1rem; color:var(--muted)}
+.dsline{min-width:min(78vw,340px); min-height:1.3em; padding:0 8px 8px; border-bottom:2px solid var(--line-2); text-align:center; font:500 clamp(26px,7vw,40px)/1.2 var(--font-body); letter-spacing:.08em; font-variant-numeric:tabular-nums}
 .slots{display:flex; gap:8px; flex-wrap:wrap; justify-content:center}
 .slots span{width:clamp(28px,8vw,46px); height:clamp(40px,10vw,58px); border-bottom:2px solid var(--line-2); display:grid; place-items:center; font:500 clamp(22px,6vw,34px)/1 var(--font-body)}
 .slots span.on{border-color:var(--ink)}
@@ -230,6 +230,21 @@ a{color:var(--ink)}
 @media (min-width:700px){ .rbtn.big{font-size:1.75rem; min-height:100px} }
 .wcard{border-radius:6px}
 @media (min-width:700px){ .rbtn{border-radius:8px} }
+/* one button height across test screens (WCST picture cards excepted) */
+#runner{--bh:72px}
+@media (min-width:700px){ #runner{--bh:88px} }
+.rbtn:not(.card), .rbtn.dtarget{min-height:var(--bh); height:var(--bh)}
+.rbtn.dtarget{padding:6px}
+.rbtn.dtarget svg{width:auto; height:100%; max-height:none}
+.ddemo{flex-direction:column; align-items:stretch; gap:12px}
+.dd-row{display:flex; align-items:center; gap:10px}
+.dd-lab{width:5em; flex:none; font-size:.8125rem; color:var(--muted)}
+.dd-card{width:56px; height:56px; flex:none; display:grid; place-items:center; border-radius:10px; background:#fff; box-shadow:0 0 0 1px var(--line-2)}
+.dd-card svg{width:42px; height:42px}
+.dd-rules{display:flex; flex-direction:column; gap:6px; padding-top:10px; border-top:1px solid var(--line-2)}
+.dd-rules > span{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+.dd-mini{display:inline-grid; place-items:center; width:26px; height:26px; border-radius:6px; background:#fff; box-shadow:0 0 0 1px var(--line-2)}
+.dd-mini svg{width:20px; height:20px}
 </style>
 </head>
 <body>
@@ -241,8 +256,6 @@ a{color:var(--ink)}
 
 <div id="home">
   <main class="inner main">
-    <div class="idrow"><label for="sid">暱稱</label><input id="sid" type="text" autocomplete="off" spellcheck="false" maxlength="20" placeholder="請輸入暱稱" aria-describedby="sidErr"><p class="iderr" id="sidErr" role="alert" hidden>請先輸入暱稱，再開始測驗</p></div>
-
     <header class="hero">
       <svg class="mark hmark" aria-hidden="true"><use href="#mark"/></svg>
       <h1>執行功能測驗組</h1>
@@ -259,6 +272,7 @@ a{color:var(--ink)}
 
     <section class="sec" aria-labelledby="tasksH">
       <div class="sec-head"><h2 id="tasksH">測驗</h2><div class="hprog"><div class="htrack" role="progressbar" aria-label="完成進度" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="pBar"><i id="pFill"></i></div><span id="pTxt">已完成0/6</span></div></div>
+      <div class="idrow"><label for="sid">暱稱</label><input id="sid" type="text" autocomplete="off" spellcheck="false" maxlength="20" placeholder="請輸入暱稱" aria-describedby="sidErr"><p class="iderr" id="sidErr" role="alert" hidden>請先輸入暱稱，再開始測驗</p></div>
       <div class="tgrid" id="groups"></div>
     </section>
 
@@ -267,7 +281,6 @@ a{color:var(--ink)}
       <div id="sum"></div>
       <div class="actions">
         <button class="btn primary" id="cpSum" type="button">複製結果摘要</button>
-        <button class="btn" id="cpCsv" type="button">複製逐題資料（CSV）</button>
         <button class="btn danger" id="clr" type="button">清除紀錄</button>
       </div>
       <div class="actions" id="clrConfirm" hidden>
@@ -280,7 +293,7 @@ a{color:var(--ink)}
     </section>
   </main>
 
-  <div class="subfoot"><div class="inner subfoot-in"><span>© 2026 T. Y. Huang</span></div></div>
+  <div class="subfoot"><div class="inner subfoot-in"><span>© 2026 T. Y. Huang</span><span>教學示範版，不作臨床評估</span></div></div>
 </div>
 
 <div id="runner" hidden>
@@ -292,6 +305,8 @@ a{color:var(--ink)}
 <script>
 (() => {
 'use strict';
+// 結果上傳：貼上 Google Apps Script 網頁應用程式的網址（https://script.google.com/macros/s/…/exec），留空則不上傳
+const API_URL = 'https://script.google.com/macros/s/AKfycbzyY88Fs59GWEA6MOI54zNntiWi96kn8mAERVzDnivEaGNO97EoMXPz5OhWVTzJIy4/exec';
 const $ = s => document.querySelector(s);
 const K = ['r','g','b','y'];
 const COL = {
@@ -396,10 +411,10 @@ async function feedback(kind){
   await sleep(kind === 'ok' ? 500 : 900);
   rStim.innerHTML = '';
 }
-async function practiceGate(nOk, n){
-  const good = nOk / n >= 0.75;
+async function practiceGate(nOk, n, speed = true){
+  const good = nOk / n >= 0.8;
   return screen(`<p class="eyebrow">練習結束</p><h2>答對${nOk}/${n}</h2>
-    <p>${good ? '規則清楚了就開始正式測驗。<strong>正式測驗不會顯示對錯</strong>，請又快又正確。' : '建議再練習一次，確定規則清楚再開始。'}</p>`,
+    <p>${good ? (speed ? '規則清楚了就開始正式測驗，正式測驗不會顯示對錯，請答得又快又正確' : '規則清楚了就開始正式測驗，正式測驗不會顯示對錯，答對最重要') : '建議再練習一次，確定規則清楚再開始'}</p>`,
     [{label:'再練習一次', value:'again'}, {label:'開始正式測驗', value:'go', cls:'go'}]);
 }
 async function getReady(){ rStim.innerHTML = '<div class="fix">準備</div>'; await sleep(1000); rStim.innerHTML = ''; await sleep(400); }
@@ -409,14 +424,14 @@ const SK = ['r','g','b'];
 const SCOL = {r:'#E0342A', g:'#1E9A48', b:'#2F6BE8'};
 const SDUR = 45000;
 const SBLOCK = {
-  word:{name:'第一關：讀字',
-    inst:'<p>畫面會出現<strong>黑色</strong>的國字「紅」、「綠」或「藍」。</p><p>請按下方和<strong>這個字</strong>相同的按鈕。</p>',
+  word:{name:'第一關：讀出黑字',
+    inst:'<p>請按下和<strong>這個字</strong>相同的按鈕</p>',
     demo:'<span class="dword" style="color:var(--ink)">綠</span><span>→ 按「綠」</span>'},
-  color:{name:'第二關：看顏色',
-    inst:'<p>畫面會出現紅色、綠色或藍色的「XXXX」。</p><p>請按下方和<strong>XXXX的顏色</strong>相同的按鈕。</p>',
+  color:{name:'第二關：命名顏色',
+    inst:'<p>請按下和<strong>XXXX顏色</strong>相同的按鈕</p>',
     demo:`<span class="dword" style="color:${SCOL.r}">XXXX</span><span>→ 按「紅」</span>`},
-  cw:{name:'第三關：字的顏色',
-    inst:'<p>畫面會出現用不同顏色寫的「紅」、「綠」、「藍」，字和顏色一定不同。</p><p><strong>請忽略字的意思，按下字的顏色。</strong></p>',
+  cw:{name:'第三關：命名色字',
+    inst:'<p>畫面會出現用不同顏色寫的「紅」、「綠」、「藍」</p><p><strong>請忽略字的意思，按下和這個字顏色相同的按鈕</strong></p>',
     demo:`<span class="dword" style="color:${SCOL.b}">紅</span><span>→ 按「藍」</span>`}
 };
 function stroopNext(kind, prev){
@@ -434,7 +449,7 @@ async function stroopBlock(kind){
   await getReady();
   const out = [], tStart = performance.now();
   let prev = null;
-  const tick = () => setProg(`${SBLOCK[kind].name} · 剩餘${Math.max(0, Math.ceil((SDUR - (performance.now() - tStart)) / 1000))}秒`);
+  const tick = () => setProg(`剩餘${Math.max(0, Math.ceil((SDUR - (performance.now() - tStart)) / 1000))}秒`);
   tick();
   const timer = setInterval(tick, 200);
   try {
@@ -455,25 +470,22 @@ async function stroopBlock(kind){
       await sleep(120);
     }
   } finally { clearInterval(timer); }
-  setProg(`${SBLOCK[kind].name} · 時間到`);
+  setProg('時間到');
   rStim.innerHTML = '<div class="fbk">時間到</div>';
   await sleep(1100);
   rStim.innerHTML = '';
   return out;
 }
 async function runStroop(){
-  await screen(`<h2>史楚普字色測驗</h2><p class="ename">Stroop Color Word Test</p>
-    <p>共有三個關卡，每關<strong>45秒</strong>。請在時間內又快又正確地作答，答對越多越好。</p>
-    <p>每一關都用下方「紅」、「綠」、「藍」三個按鈕回答，每關開始前會先說明規則。</p>
-    <p class="small">沒有練習題，全程約3分鐘。</p>`, [{label:'下一步', value:'go', cls:'go'}]);
+  await screen(`<h2>史楚普色字測驗</h2><p class="ename">Stroop Color Word Test</p>
+    <p>共有三個關卡，每關<strong>45秒</strong>，請答對越多越好</p>`, [{label:'下一步', value:'go', cls:'go'}]);
   const res = {}, trials = [];
   const kinds = ['word','color','cw'];
   for (let i=0;i<3;i++){
     const kind = kinds[i], B = SBLOCK[kind];
     rCode.textContent = `SCWT ${i+1}/3`;
     setProg('');
-    await screen(`<p class="eyebrow">第${i+1}關，共3關 · 45秒</p><h2>${B.name}</h2>${B.inst}<div class="demo">${B.demo}</div>
-      <p class="small">按「開始」後會倒數，時間到自動結束。</p>`);
+    await screen(`<p class="eyebrow">第${i+1}關，共3關 · 45秒</p><h2>${B.name}</h2>${B.inst}<div class="demo">${B.demo}</div>`);
     const out = await stroopBlock(kind);
     trials.push(...out);
     res[kind] = {n: out.length, ok: out.filter(t => t.acc).length};
@@ -481,16 +493,16 @@ async function runStroop(){
   rCode.textContent = 'SCWT';
   const W = res.word.ok, C = res.color.ok, CW = res.cw.ok;
   const pred = (W + C) ? (W * C) / (W + C) : NaN, intf = CW - pred;
-  const f1 = x => isNaN(x) ? '—' : x.toFixed(1);
   const sf1 = x => isNaN(x) ? '—' : (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(1);
   return {
-    key:`字${W} · 色${C} · 色字${CW}`,
+    key:`黑字${W} · 顏色${C} · 色字${CW} · 干擾${sf1(intf)}`,
+    metrics:{W, C, CW, intf},
     summary:[
-      ['第一關 字（W）正確數', `${W}`, 1], ['第一關 錯誤數', `${res.word.n - W}`],
-      ['第二關 色（C）正確數', `${C}`, 1], ['第二關 錯誤數', `${res.color.n - C}`],
-      ['第三關 色字（CW）正確數', `${CW}`, 1], ['第三關 錯誤數', `${res.cw.n - CW}`],
-      ['預測色字分數W×C÷(W+C)', f1(pred)], ['干擾分數（CW−預測值）', sf1(intf), 1]],
-    note:'每關分數為45秒內答對的個數。干擾分數＝實際色字分數減預測色字分數（Golden, 1978）；負值越大，代表越難壓下「讀字」的自動反應。這裡使用原始分數，未做年齡校正。',
+      ['讀出黑字正確數（raw Word score）', `${W}`, 1],
+      ['命名顏色正確數（raw Color score）', `${C}`, 1],
+      ['命名色字正確數（raw Color-Word score）', `${CW}`, 1],
+      ['干擾分數（interference score）', sf1(intf), 1]],
+    note:'每關分數為45秒內答對的個數<br>干擾分數＝實際色字分數減預測色字分數（Golden, 1978）；負值越大，代表越難壓下「讀字」的自動反應<br>這裡使用原始分數，未做年齡校正',
     trials
   };
 }
@@ -506,8 +518,8 @@ function zinv(p){
   if (p <= 1-pl){ q = p-0.5; r = q*q; return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1); }
   q = Math.sqrt(-2*Math.log(1-p)); return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
 }
-const GO_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="#1E9A48"/></svg>';
-const NOGO_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M20 20 L80 80 M80 20 L20 80" stroke="#E0342A" stroke-width="15" stroke-linecap="round"/></svg>';
+const GO_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="14" y="14" width="72" height="72" rx="4" fill="#1E9A48"/></svg>';
+const NOGO_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="14" y="14" width="72" height="72" rx="4" fill="#E0342A"/></svg>';
 // No-Go never twice in a row; the first `lead` trials are Go
 function gngList(nGo, nNo, lead){
   const set = new Set(shuffle([...Array(nGo - lead + 1).keys()].map(i => i + lead)).slice(0, nNo));
@@ -517,51 +529,53 @@ function gngList(nGo, nNo, lead){
 }
 async function gngTrial(type, prac, i){
   rStim.innerHTML = '<div class="fix">+</div>';
-  await sleep(randInt(500,900));
+  await sleep(500);
   rStim.innerHTML = `<div class="gng">${type === 'go' ? GO_SVG : NOGO_SVG}</div>`;
   await frame(); const t0 = performance.now();
   const hide = setTimeout(() => { const el = rStim.querySelector('.gng'); if (el) el.innerHTML = ''; }, 500);
-  const r = await waitResp(t0, 1000);
+  // stimulus 500 ms + inter-trial interval 1000 ms; responses count until the next fixation
+  const r = await waitResp(t0, 1500);
   const resp = !!r.r;
-  if (resp){ const rem = 1000 - (performance.now() - t0); if (rem > 0) await sleep(rem); }
+  if (resp){ const rem = 1500 - (performance.now() - t0); if (rem > 0) await sleep(rem); }
   clearTimeout(hide); rStim.innerHTML = '';
   const acc = type === 'go' ? (resp ? 1 : 0) : (resp ? 0 : 1);
   if (prac) await feedback(type === 'go' ? (resp ? 'ok' : 'slow') : (resp ? 'err' : 'ok'));
-  return {block: prac ? 'practice' : 'test', trial:i+1, cond:type, stim: type === 'go' ? 'green-circle' : 'red-x', cresp: type === 'go' ? 'press' : 'none', resp: resp ? 'press' : 'none', acc, rt: resp ? r.rt : null};
+  return {block: prac ? 'practice' : 'test', trial:i+1, cond:type, stim: type === 'go' ? 'green-square' : 'red-square', cresp: type === 'go' ? 'press' : 'none', resp: resp ? 'press' : 'none', acc, rt: resp ? r.rt : null};
 }
 async function runGoNoGo(){
   await screen(`<h2>Go/No-Go作業</h2><p class="ename">Go/No-Go Task</p>
-    <p>畫面中央會很快地出現圖形：</p>
-    <div class="demo"><span style="width:44px;display:block">${GO_SVG}</span><span>看到<strong>綠色圓形</strong>，盡快按「按」</span></div>
-    <div class="demo"><span style="width:44px;display:block">${NOGO_SVG}</span><span>看到<strong>紅色叉叉</strong>，<strong>不要按</strong></span></div>
-    <p>大部分會是綠色圓形，請又快又正確。</p>
-    <p class="small">練習10題 → 正式80題，約3分鐘。</p>`);
-  const btn = () => setResp('<button type="button" class="rbtn match" data-r="p" data-k=" |Enter">按<small>PRESS</small></button>', 1);
+    <p>畫面中央會很快地出現圖形</p>
+    <div class="demo"><span style="width:44px;display:block">${GO_SVG}</span><span>看到<strong>綠色正方形</strong>，請盡快按下「Go」的按鈕</span></div>
+    <div class="demo"><span style="width:44px;display:block">${NOGO_SVG}</span><span>看到<strong>紅色正方形</strong>，<strong>不按</strong></span></div>
+    <p>請答得又快又正確</p>`);
+  const btn = () => setResp('<button type="button" class="rbtn match" data-r="p" data-k=" |Enter">Go</button>', 1);
   let gate;
   do {
     btn(); await getReady();
-    const P = gngList(7, 3, 2), out = [];
+    const P = gngList(8, 2, 2), out = [];
     for (let i=0;i<P.length;i++){ setProg(`練習${i+1}/${P.length}`); out.push(await gngTrial(P[i], true, i)); }
     gate = await practiceGate(out.filter(t => t.acc).length, out.length);
   } while (gate === 'again');
   btn(); await getReady();
-  const L = gngList(60, 20, 3), trials = [];
+  const L = gngList(64, 16, 3), trials = [];
   for (let i=0;i<L.length;i++){ setProg(`正式${i+1}/${L.length}`); trials.push(await gngTrial(L[i], false, i)); }
   const G = trials.filter(t => t.cond === 'go'), N = trials.filter(t => t.cond === 'nogo');
   const hit = G.filter(t => t.resp === 'press'), fa = N.filter(t => t.resp === 'press');
-  const goRT = mean(hit.filter(t => t.rt >= 150).map(t => t.rt));
-  const H = (hit.length + .5) / (G.length + 1), F = (fa.length + .5) / (N.length + 1);
-  const dp = zinv(H) - zinv(F);
+  // RT: Go hits only; drop <150 ms and > mean + 2.5 SD
+  const base = hit.filter(t => t.rt >= 150).map(t => t.rt);
+  const m0 = mean(base), sd0 = base.length > 1 ? Math.sqrt(base.reduce((a,x) => a + (x - m0) ** 2, 0) / (base.length - 1)) : 0;
+  const rts = base.filter(x => x <= m0 + 2.5 * sd0);
+  const goRT = mean(rts), goSD = rts.length > 1 ? Math.sqrt(rts.reduce((a,x) => a + (x - goRT) ** 2, 0) / (rts.length - 1)) : NaN;
+  const com = fa.length / N.length, om = (G.length - hit.length) / G.length;
   return {
-    key:`誤按率${pct(fa.length / N.length)} · Go RT ${ms(goRT)}`,
+    key:`No-Go誤按率${pct(com)}`,
+    metrics:{com, om, rt:goRT, sd:goSD},
     summary:[
-      ['Go正確率（命中）', `${pct(hit.length / G.length)}（${hit.length}/${G.length}）`],
-      ['Go平均反應時間', ms(goRT)],
-      ['漏按（Omission）', `${G.length - hit.length}`],
-      ['No-Go誤按（Commission）', `${fa.length}/${N.length}`],
-      ['No-Go誤按率', pct(fa.length / N.length), 1],
-      ['d′（區辨力）', dp.toFixed(2)]],
-    note:'No-Go誤按率代表來不及停住已準備好的按鍵反應，是反應抑制的主要指標。Go平均反應時間只計命中題（≥150 ms）。通常Go反應越快，No-Go誤按越多（速度與正確率的權衡）。',
+      ['No-Go誤按率（Commission error rate）', `${pct(com)}（${fa.length}/${N.length}）`, 1],
+      ['漏判率（Omission error rate）', `${pct(om)}（${G.length - hit.length}/${G.length}）`],
+      ['Go反應時間（Go reaction time）', ms(goRT)],
+      ['Go平均反應時間變異度（Go reaction time variability）', ms(goSD)]],
+    note:'',
     trials
   };
 }
@@ -584,10 +598,10 @@ const miniGrid = (p, hl) => `<span class="mini${hl?' hl':''}">${Array.from({leng
 function nbDemo(n){
   const fill = [6,1,5];
   const seq = [2].concat(fill.slice(0, n-1)).concat([2]);
-  return `<div class="demo" style="flex-direction:column;align-items:flex-start;gap:8px"><span class="seq-note">${n}-back範例</span>
-    <div class="minis">${seq.map((p,i) => miniGrid(p, i===seq.length-1)).join('')}</div>
-    <span class="seq-note">第${n+1}個位置和往前數第${n}個相同 → 按「相同」</span></div>`;
+  return `<div class="demo" style="flex-direction:column;align-items:flex-start;gap:8px"><span class="seq-note">範例</span>
+    <div class="minis">${seq.map((p,i) => miniGrid(p, i===seq.length-1)).join('')}</div></div>`;
 }
+const nbackResp = () => setResp(`<button type="button" class="rbtn match" data-r="m" data-k=" |m|j">相同<small>MATCH</small></button>`, 1);
 async function nbackBlock(seq, n, prac){
   setResp(`<button type="button" class="rbtn match" data-r="m" data-k=" |m|j">相同<small>MATCH</small></button>`, 1);
   rStim.innerHTML = nbGrid();
@@ -607,9 +621,9 @@ async function nbackBlock(seq, n, prac){
     const acc = resp === t.target ? 1 : 0;
     if (prac && t.scorable){
       let m = '';
-      if (t.target && resp) m = '<span class="ok">✓ 正確，這是相同</span>';
-      else if (t.target && !resp) m = '<span class="slow">漏掉了：這一題是相同</span>';
-      else if (!t.target && resp) m = '<span class="err">✗ 這一題不是相同</span>';
+      if (t.target && resp) m = '<div class="fbk ok">✓ 正確</div>';
+      else if (t.target && !resp) m = '<div class="fbk slow">漏掉了</div>';
+      else if (!t.target && resp) m = '<div class="fbk err">✗ 錯誤</div>';
       if (m){ fb.innerHTML = m; await sleep(900); fb.innerHTML = ''; }
     }
     out.push({block:`${n}-back${prac?'-practice':''}`, trial:t.i+1, cond: t.scorable ? (t.target?'target':'nontarget') : 'filler', stim:posName(t.pos), cresp: t.target?'match':'none', resp: resp?'match':'none', acc, rt: resp ? r.rt : null});
@@ -618,63 +632,58 @@ async function nbackBlock(seq, n, prac){
 }
 async function runNback(){
   await screen(`<h2>N-back作業</h2><p class="ename">N-back Task</p>
-    <p>畫面上有一個看不見格線的九宮格，<strong>藍色方塊</strong>每次會出現在其中一個位置（中間除外），每次0.5秒、間隔2秒。中間的「+」是注視點。</p>
-    <p>請記住方塊出現過的位置。當目前的位置和<strong>往前數第N個</strong>位置相同，就按「相同」；不同就不按。</p>
-    <p>依序進行<strong>1-back → 2-back → 3-back</strong>，每個階段都先練習再正式測驗。</p>
-    <p class="small">每階段先練習約10題，正式題數依序為20、21、22題，全程約5分鐘。</p>`);
-  const trials = [], summary = [], accs = [];
+    <p>請記住藍色方塊出現的位置，當藍色方塊出現的位置和<strong>往前數第N個</strong>位置相同時，請盡快按下「相同」的按鈕；不同就不按</p>`, [{label:'下一步', value:'go', cls:'go'}]);
+  const trials = [], summary = [], accs = [], accN = [], rtN = [];
   for (const n of [1,2,3]){
-    await screen(`<p class="eyebrow">第${n}階段，共3階段</p><h2>${n}-back</h2>
-      <p>當方塊出現的位置和<strong>往前數第${n}個</strong>位置相同時，按「相同」。</p>${nbDemo(n)}`);
+    await screen(`<p class="eyebrow">第${n}關，共3關</p><h2>第${n}關：${n}-back</h2>
+      <p>當藍色方塊出現的位置和<strong>往前數第${n}個</strong>位置相同時，請盡快按下「相同」的按鈕；不同就不按</p>${nbDemo(n)}`);
     let gate;
     do {
-      await getReady();
-      const out = await nbackBlock(nbackSeq(n, 10, 1/3), n, true);
+      nbackResp(); await getReady();
+      const out = await nbackBlock(nbackSeq(n, 5, 2/5), n, true);
       const sc = out.filter(t => t.cond !== 'filler');
       gate = await practiceGate(sc.filter(t=>t.acc).length, sc.length);
     } while (gate === 'again');
-    await getReady();
+    nbackResp(); await getReady();
     const tr = await nbackBlock(nbackSeq(n, {1:20, 2:21, 3:22}[n] - n, 1/3), n, false);
     trials.push(...tr);
     const T = tr.filter(t => t.cond==='target'), N = tr.filter(t => t.cond==='nontarget');
     const hit = T.filter(t=>t.resp==='match').length, fa = N.filter(t=>t.resp==='match').length;
     const acc = tr.filter(t => t.cond!=='filler' && t.acc).length / (T.length + N.length);
     const rt = mean(T.filter(t=>t.resp==='match').map(t=>t.rt));
-    accs.push(pct(acc));
-    summary.push([`${n}-back正確率`, pct(acc), 1], [`${n}-back平均反應時間`, ms(rt)], [`${n}-back命中｜誤報`, `${hit}/${T.length}｜${fa}/${N.length}`]);
+    accs.push(pct(acc)); accN.push(acc); rtN.push(rt);
+    summary.push([`${n}-back正確率（${n}-back accuracy）`, pct(acc), 1], [`${n}-back反應時間（${n}-back reaction time）`, ms(rt)]);
   }
   rCode.textContent = 'N-BACK';
   return {
-    key:`1/2/3-back正確率${accs.join('／')}`,
+    key:accs.map((a,i) => `${i+1}-back正確率${a}`).join(' · '),
+    metrics:{acc1:accN[0], acc2:accN[1], acc3:accN[2], rt1:rtN[0], rt2:rtN[1], rt3:rtN[2], accMean:mean(accN), rtMean:mean(rtN.filter(x => !isNaN(x)))},
     summary,
-    note:'正確率＝（命中＋正確不按）÷ 計分題數；平均反應時間只計命中題（是「相同」且有按）。每階段前N個位置沒有可比較的對象，不計分。N越大，需要同時保存並更新的位置越多，通常正確率下降、反應時間變長。',
+    note:'正確率＝（命中＋正確不按）÷ 計分題數；平均反應時間只計命中題（是「相同」且有按）<br>每階段前N個位置沒有可比較的對象，不計分<br>N越大，需要同時保存並更新的位置越多，通常正確率下降、反應時間變長',
     trials
   };
 }
 
 /* ================= DIGIT SPAN ================= */
+// fixed item set: practice items, then two trials at each length from 2 to 10 (same structure as the record form, different digits)
+const DS_ITEMS = {"forward":{"practice":[[9,6]],"items":[[[7,1],[9,5]],[[5,7,2],[3,9,1]],[[1,5,2,6],[7,3,6,2]],[[8,4,6,2,5],[2,9,7,4,8]],[[2,8,4,7,5,1],[4,6,1,3,5,8]],[[9,5,2,8,6,1,7],[6,3,9,7,1,5,8]],[[1,9,6,8,2,5,7,3],[3,5,8,1,6,4,9,7]],[[7,1,5,2,4,6,8,3,9],[2,6,9,4,7,5,3,1,8]],[[4,2,6,3,8,5,7,9,1,5],[3,5,1,6,9,2,4,8,3,7]]]},"backward":{"practice":[[6,3],[5,1]],"items":[[[7,9],[7,1]],[[9,2,8],[7,9,3]],[[9,7,5,8],[2,9,4,6]],[[6,2,5,7,3],[2,4,9,3,7]],[[7,4,2,9,3,1],[3,5,9,1,4,2]],[[9,3,1,6,2,8,5],[4,9,7,2,6,8,1]],[[6,2,7,1,8,4,9,3],[4,8,3,1,5,7,2,9]],[[5,3,8,6,2,4,1,7,9],[5,2,7,9,3,6,1,4,8]],[[3,6,2,9,4,1,5,8,4,7],[9,4,6,3,7,5,2,6,8,1]]]},"sequencing":{"practice":[[7,1],[9,3],[7,9,1],[8,2,5,5]],"items":[[[7,4],[4,2]],[[5,3,6],[3,8,4]],[[3,9,5,2],[8,4,1,4]],[[8,8,2,5,2],[8,6,6,8,5]],[[3,1,5,5,9,1],[4,2,5,5,9,4]],[[6,3,6,3,5,5,8],[3,9,1,3,1,6,3]],[[8,4,8,8,6,3,9,1],[4,2,7,1,4,7,4,9]],[[6,4,1,8,3,5,2,4,6],[7,4,7,1,4,6,9,2,8]],[[5,5,1,4,2,9,4,9,1,9],[2,6,1,1,4,7,9,4,9,1]]]}};
 const DSK = {
   forward:{name:'第一關：順序', short:'順序', prompt:'依照順序輸入',
-    rule:'看完後，照<strong>看到的順序</strong>輸入。', ex:[3,8,5], ans:a => a.slice()},
+    rule:'看完後，照<strong>看到的順序</strong>輸入', ans:a => a.slice()},
   backward:{name:'第二關：逆序', short:'逆序', prompt:'倒過來輸入',
-    rule:'看完後，<strong>倒過來</strong>輸入，從最後一個數字開始。', ex:[3,8,5], ans:a => a.slice().reverse()},
+    rule:'看完後，<strong>倒過來</strong>輸入，從最後一個數字開始', ans:a => a.slice().reverse()},
   sequencing:{name:'第三關：排序', short:'排序', prompt:'由小到大輸入',
-    rule:'看完後，把數字<strong>由小到大</strong>排好再輸入。', ex:[5,2,8], ans:a => a.slice().sort((x,y) => x - y)}
+    rule:'看完後，把數字<strong>由小到大</strong>排好再輸入；相同的數字也要都輸入', ans:a => a.slice().sort((x,y) => x - y)}
 };
-function dsSeq(n){
-  if (n <= 9) return shuffle([1,2,3,4,5,6,7,8,9]).slice(0, n);
-  const a = shuffle([1,2,3,4,5,6,7,8,9]); let d;
-  do { d = randInt(1,9); } while (d === a[8]);
-  return a.concat([d]);
-}
+const DS_MAX = 10;
 function dsKeypad(){
   setResp([1,2,3,4,5,6,7,8,9].map(d => `<button type="button" class="rbtn key num" data-r="${d}" data-k="${d}" disabled>${d}</button>`).join('')
     + '<button type="button" class="rbtn key" data-r="del" data-k="Backspace" disabled>刪除</button>'
     + '<button type="button" class="rbtn key go" data-r="ok" data-k="Enter" style="grid-column:span 2" disabled>確定</button>', 3);
   rResp.classList.add('keypad');
 }
-async function dsTrial(kind, n, prac, idx){
-  const K = DSK[kind], seq = dsSeq(n), want = K.ans(seq);
+async function dsTrial(kind, seq, prac, idx){
+  const K = DSK[kind], want = K.ans(seq);
   dsKeypad();
   rStim.innerHTML = '<div class="fix">+</div>'; await sleep(700);
   rStim.innerHTML = ''; await sleep(200);
@@ -682,17 +691,17 @@ async function dsTrial(kind, n, prac, idx){
   const typed = [];
   const okB = rResp.querySelector('[data-r="ok"]'), delB = rResp.querySelector('[data-r="del"]'), nums = [...rResp.querySelectorAll('.num')];
   const draw = () => {
-    rStim.innerHTML = `<div class="dsin"><p class="dsq">${K.prompt}</p><div class="slots">${Array.from({length:n}, (_,i) => `<span class="${i < typed.length ? 'on' : ''}">${typed[i] ?? ''}</span>`).join('')}</div></div>`;
-    okB.disabled = typed.length !== n; delB.disabled = !typed.length;
-    nums.forEach(b => { b.disabled = typed.length >= n; });
+    rStim.innerHTML = `<div class="dsin"><p class="dsq">${K.prompt}</p><div class="dsline">${typed.length ? typed.join(' ') : '&nbsp;'}</div></div>`;
+    okB.disabled = !typed.length; delB.disabled = !typed.length;
+    nums.forEach(b => { b.disabled = typed.length >= DS_MAX; });
   };
   draw();
   const t0 = performance.now();
   for (;;){
     const r = await waitResp(performance.now(), 0);
-    if (r.r === 'ok'){ if (typed.length === n) break; }
+    if (r.r === 'ok'){ if (typed.length) break; }
     else if (r.r === 'del') typed.pop();
-    else if (typed.length < n) typed.push(+r.r);
+    else if (typed.length < DS_MAX) typed.push(+r.r);
     draw();
   }
   const rt = Math.round(performance.now() - t0);
@@ -703,39 +712,37 @@ async function dsTrial(kind, n, prac, idx){
     await sleep(acc ? 900 : 2200);
   } else await sleep(400);
   rStim.innerHTML = '';
-  return {block: prac ? `${kind}-practice` : kind, trial:idx, cond:`span=${n}`, stim:seq.join(''), cresp:want.join(''), resp:typed.join(''), acc, rt};
+  return {block: prac ? `${kind}-practice` : kind, trial:idx, cond:`span=${seq.length}`, stim:seq.join(''), cresp:want.join(''), resp:typed.join(''), acc, rt};
 }
 async function dsBlock(kind, i){
-  const K = DSK[kind];
+  const K = DSK[kind], set = DS_ITEMS[kind], ex = set.practice[0];
   rCode.textContent = `DS ${i+1}/3`;
   setProg('');
   await screen(`<p class="eyebrow">第${i+1}關，共3關</p><h2>${K.name}</h2>
-    <p>數字會一個一個出現。${K.rule}</p>
-    <div class="demo"><span class="dsx">${K.ex.join(' ')}</span><span>→ 輸入${K.ans(K.ex).join(' ')}</span></div>
-    <p class="small">先練習2題（會顯示對錯），再開始正式題目。</p>`);
+    <p>數字會一個一個出現<br>${K.rule}</p>
+    <div class="demo"><span class="dsx">${ex.join(' ')}</span><span>→ 輸入${K.ans(ex).join(' ')}</span></div>`);
   let gate;
   do {
-    await getReady();
+    dsKeypad(); await getReady();
     const out = [];
-    for (let k=0;k<2;k++){ setProg(`${K.short}練習${k+1}/2`); out.push(await dsTrial(kind, 2, true, k+1)); }
-    gate = await practiceGate(out.filter(t => t.acc).length, 2);
+    setProg(`${K.short}練習`);
+    for (let k=0;k<set.practice.length;k++) out.push(await dsTrial(kind, set.practice[k], true, k+1));
+    gate = await practiceGate(out.filter(t => t.acc).length, out.length, false);
   } while (gate === 'again');
-  await getReady();
+  dsKeypad(); await getReady();
+  setProg(K.short);
   const trials = []; let longest = 0, idx = 0;
-  for (let n=2; n<=10; n++){
+  for (const pair of set.items){
     let ok = 0;
-    for (let k=0;k<2;k++){ setProg(`${K.short} · ${n}個數字 · 第${k+1}題`); const t = await dsTrial(kind, n, false, ++idx); trials.push(t); ok += t.acc; }
+    for (const seq of pair){ const t = await dsTrial(kind, seq, false, ++idx); trials.push(t); ok += t.acc; }
     if (!ok) break;
-    longest = n;
+    longest = pair[0].length;
   }
   return {trials, longest, correct: trials.filter(t => t.acc).length};
 }
 async function runDigitSpan(){
   await screen(`<h2>記憶廣度</h2><p class="ename">Digit Span</p>
-    <p>數字會一個一個出現在畫面上（每秒一個），看完後用下方的數字鍵輸入，再按「確定」。</p>
-    <p>共三關：<strong>順序、逆序、排序</strong>，每關都先練習。</p>
-    <p>從2個數字開始，每種長度有2題。只要答對1題就增加1個數字，最多到10個；同一長度2題都答錯，就進入下一關。</p>
-    <p class="small">約8分鐘。</p>`, [{label:'下一步', value:'go', cls:'go'}]);
+    <p>數字會一個一個出現在畫面上，看完後用下方的數字鍵盤輸入，再按「確定」<br>不用趕時間，答對最重要</p>`, [{label:'下一步', value:'go', cls:'go'}]);
   const R = {}, trials = [];
   const kinds = ['forward','backward','sequencing'];
   for (let i=0;i<3;i++){ const r = await dsBlock(kinds[i], i); R[kinds[i]] = r; trials.push(...r.trials); }
@@ -743,12 +750,13 @@ async function runDigitSpan(){
   const tot = R.forward.correct + R.backward.correct + R.sequencing.correct;
   return {
     key:`順序${R.forward.longest} · 逆序${R.backward.longest} · 排序${R.sequencing.longest}`,
+    metrics:{fwd:R.forward.longest, bwd:R.backward.longest, seq:R.sequencing.longest, total:tot},
     summary:[
-      ['順序 最長廣度', `${R.forward.longest}`, 1], ['順序 答對題數', `${R.forward.correct}`],
-      ['逆序 最長廣度', `${R.backward.longest}`, 1], ['逆序 答對題數', `${R.backward.correct}`],
-      ['排序 最長廣度', `${R.sequencing.longest}`, 1], ['排序 答對題數', `${R.sequencing.correct}`],
-      ['總答對題數', `${tot}`]],
-    note:'最長廣度：至少答對1題的最長數字個數（2個數字就全錯記為0）。答對題數相當於原始分數。順序偏重短期保存；逆序與排序需要在腦中操作數字，較能反映工作記憶。',
+      ['順序最長廣度（Longest digit span forward）', `${R.forward.longest}`, 1],
+      ['逆序最長廣度（Longest digit span backward）', `${R.backward.longest}`, 1],
+      ['排序最長廣度（Longest digit span sequence）', `${R.sequencing.longest}`, 1],
+      ['總答對題數（Total correct）', `${tot}`]],
+    note:'',
     trials
   };
 }
@@ -795,19 +803,23 @@ async function dccsTrial(t, prac){
   const r = await waitResp(t0, 0);
   const cresp = dccsAnswer(t.card, t.rule), acc = r.r === cresp ? 1 : 0;
   if (prac){
-    rStim.querySelector('.dslot').innerHTML = `<div class="fbk ${acc ? 'ok' : 'err'}">${acc ? '正確' : '錯誤'}</div>`;
+    rStim.querySelector('.dslot').innerHTML = `<div class="fbk ${acc ? 'ok' : 'err'}">${acc ? '✓ 正確' : '✗ 錯誤'}</div>`;
     await sleep(800); rStim.innerHTML = ''; await sleep(400);
   } else { rStim.innerHTML = ''; await sleep(800); }
   return {block: prac ? 'practice' : `block${t.b}`, trial:t.i, cond: prac ? t.rule : `${t.rule};${t.type}`, stim: t.card === 'rr' ? 'red-rabbit' : 'blue-boat', cresp, resp:r.r || '', acc, rt:r.rt, type:t.type};
 }
 async function runDCCS(){
   await screen(`<h2>卡片向度改變分類作業</h2><p class="ename">Dimensional Change Card Sort</p>
-    <p>下方有兩張參考卡：<strong>藍色兔子</strong>、<strong>紅色小船</strong>。中間會出現要分類的卡片：紅色兔子或藍色小船。</p>
-    <p>每題會先出現提示字，告訴你用哪個規則：</p>
-    <ul><li><strong>顏色</strong>：按顏色相同的參考卡。</li><li><strong>形狀</strong>：按形狀相同的參考卡。</li></ul>
-    <div class="demo"><span style="width:48px;display:block">${dccsSVG('rabbit','r')}</span><span>顏色 → 按紅色小船<br>形狀 → 按藍色兔子</span></div>
-    <p>先練習15題（會顯示正確或錯誤）。正式測驗80題，中間不會停下來，也不會顯示對錯，請一直注意提示字。</p>
-    <p class="small">約5分鐘。</p>`);
+    <p>這是一個分類遊戲，請根據螢幕中間的指令，用顏色或形狀來分類</p>
+    <div class="demo ddemo">
+      <div class="dd-row"><span class="dd-lab">中間出現</span><span class="dd-card">${dccsSVG('rabbit','r')}</span></div>
+      <div class="dd-row"><span class="dd-lab">下方按鈕</span><span class="dd-card">${dccsSVG('rabbit','b')}</span><span class="dd-card">${dccsSVG('boat','r')}</span></div>
+      <div class="dd-rules">
+        <span><strong>顏色</strong> → 按<span class="dd-mini">${dccsSVG('boat','r')}</span>紅色小船</span>
+        <span><strong>形狀</strong> → 按<span class="dd-mini">${dccsSVG('rabbit','b')}</span>藍色兔子</span>
+      </div>
+    </div>
+    <p>請答得又快又正確</p>`);
   let gate;
   do {
     dccsResp(); await getReady();
@@ -839,18 +851,16 @@ async function runDCCS(){
   const accOf = a => a.length ? a.filter(t => t.acc).length / a.length : NaN;
   const rtOf = a => mean(a.filter(valid).map(t => t.rt));
   const single = trials.filter(t => t.type === 'single'), ns = trials.filter(t => t.type === 'nonswitch'), sw = trials.filter(t => t.type === 'switch');
-  const swCost = rtOf(sw) - rtOf(ns), mixCost = rtOf(ns) - rtOf(single);
-  const dropped = trials.filter(t => t.acc && !valid(t)).length;
+  const mixed = ns.concat(sw);
   return {
-    key:`轉換代價${sms(swCost)}`,
+    key:`單向度反應時間${ms(rtOf(single))} · 雙向度反應時間${ms(rtOf(mixed))}`,
+    metrics:{uniAcc:accOf(single), biAcc:accOf(mixed), uniRT:rtOf(single), biRT:rtOf(mixed)},
     summary:[
-      ['規則順序', A === 'color' ? '先顏色（區塊1、3、6）' : '先形狀（區塊1、3、6）'],
-      ['單一規則區塊 正確率', pct(accOf(single))], ['單一規則區塊 平均反應時間', ms(rtOf(single))],
-      ['混合區塊 重複題 正確率', pct(accOf(ns))], ['混合區塊 重複題 平均反應時間', ms(rtOf(ns))],
-      ['混合區塊 轉換題 正確率', pct(accOf(sw))], ['混合區塊 轉換題 平均反應時間', ms(rtOf(sw))],
-      ['轉換代價（轉換−重複）', sms(swCost), 1], ['混合代價（重複−單一規則）', sms(mixCost)],
-      ['排除的反應時間題數', `${dropped}`]],
-    note:'反應時間只計答對題，並排除少於200 ms或高於平均數2.5個標準差的題目。混合區塊共20題（13題重複、7題轉換），轉換題指規則和上一題不同的題目。',
+      ['單向度正確率（uni-dimensional accuracy）', pct(accOf(single)), 1],
+      ['雙向度正確率（bi-dimensional accuracy）', pct(accOf(mixed)), 1],
+      ['單向度反應時間（uni-dimensional reaction time）', ms(rtOf(single)), 1],
+      ['雙向度反應時間（bi-dimensional reaction time）', ms(rtOf(mixed)), 1]],
+    note:'',
     trials: trials.map(({type, ...t}) => t)
   };
 }
@@ -868,7 +878,7 @@ function wShape(s, x, y, r, fill){
   const w = r*.36;
   return `<path d="M${x-w} ${y-r}H${x+w}V${y-w}H${x+r}V${y+w}H${x+w}V${y+r}H${x-w}V${y+w}H${x-r}V${y-w}H${x-w}Z" fill="${fill}"/>`;
 }
-const POS = {1:[[50,70]], 2:[[50,42],[50,98]], 3:[[50,28],[50,70],[50,112]], 4:[[28,46],[72,46],[28,94],[72,94]]};
+const POS = {1:[[50,70]], 2:[[50,42],[50,98]], 3:[[32,30],[68,70],[32,110]], 4:[[28,46],[72,46],[28,94],[72,94]]};
 const wCard = c => `<svg viewBox="0 0 100 140" aria-hidden="true">${POS[c.n].map(([x,y]) => wShape(c.s, x, y, 15, COL[c.c].hex)).join('')}</svg>`;
 const wName = c => `${c.n}個${COL[c.c].label}${SHN[c.s]}`;
 function wcstDeck(size){
@@ -883,10 +893,9 @@ const wMatch = (c, k) => ({color: c.c===k.c, shape: c.s===k.s, number: c.n===k.n
 const wCorrectKey = (c, rule) => WKEYS.findIndex(k => wMatch(c,k)[rule]) + 1;
 async function runWCST(){
   await screen(`<h2>威斯康辛卡片分類測驗</h2><p class="ename">Wisconsin Card Sorting Test</p>
-    <p>畫面中央會出現一張卡片，請把它配到下方四張參考卡的其中一張（點選參考卡）。</p>
-    <p><strong>不會告訴你配對規則</strong>，每次只會說「正確」或「錯誤」。請利用回饋找出規則。</p>
-    <p>規則會在你不知道的時候改變；發現原本的方法不對了，就試著找出新的規則。</p>
-    <p class="small">共128張，沒有時間限制，最多約12分鐘；完成6個類別會提早結束。</p>`);
+    <p>這是一個特別分類遊戲，請將中間顯示的卡片根據某個規則分類到下面四堆卡片的其中一堆</p>
+    <p>電腦不會告訴你分類規則，但在分類後，會告訴你分類「正確」或「錯誤」</p>
+    <p>分類規則會在你不知道的時候改變，如果發現分類規則改變了，請試著找出新的分類規則</p>`);
   const deck = wcstDeck(128);
   setResp(WKEYS.map((k,i) => `<button type="button" class="rbtn card" data-r="${i+1}" data-k="${i+1}" aria-label="${wName(k)}">${wCard(k)}</button>`).join(''), 4);
   await getReady();
@@ -894,8 +903,8 @@ async function runWCST(){
   const trials = [];
   for (let i=0; i<deck.length && cat<6; i++){
     const c = deck[i], rule = RULES[cat];
-    setProg(`${i+1} / ${deck.length}`);
-    rStim.innerHTML = `<div class="wstage"><div class="wcard" role="img" aria-label="${wName(c)}">${wCard(c)}</div><div class="wfb"></div><div class="whint">點下方的參考卡配對</div></div>`;
+    setProg(`${i+1}/${deck.length}`);
+    rStim.innerHTML = `<div class="wstage"><div class="wcard" role="img" aria-label="${wName(c)}">${wCard(c)}</div><div class="wfb"></div></div>`;
     await frame(); const t0 = performance.now();
     const r = await waitResp(t0, 0);
     const k = +r.r, m = wMatch(c, WKEYS[k-1]);
@@ -904,8 +913,7 @@ async function runWCST(){
     const persev = !correct && P != null && m[P];
     if (!correct && P == null && cat === 0 && dims.length === 1) P = dims[0];
     const fms = !correct && run >= 5;
-    rStim.querySelector('.wfb').innerHTML = correct ? '<span class="ok">正確</span>' : '<span class="err">錯誤</span>';
-    rStim.querySelector('.whint').textContent = '';
+    rStim.querySelector('.wfb').innerHTML = correct ? '<div class="fbk ok">✓ 正確</div>' : '<div class="fbk err">✗ 錯誤</div>';
     await sleep(800);
     if (correct){ run++; if (run === 10){ cat++; if (cat === 1) firstCat = i+1; P = rule; run = 0; } } else run = 0;
     trials.push({block:`category${Math.min(cat + (correct && run===0 ? 0 : 1), 6)}`, trial:i+1, cond: rule + (persev?';perseverative':'') + (fms?';fms':''), stim:`${c.n}-${c.c}-${c.s}`, cresp:String(wCorrectKey(c, rule)), resp:String(k), acc: correct?1:0, rt:r.rt, persev, fms});
@@ -917,16 +925,24 @@ async function runWCST(){
   let clr = 0, streak = 0;
   for (const t of trials.concat([{acc:0}])){ if (t.acc) streak++; else { if (streak >= 3) clr += streak; streak = 0; } }
   return {
-    key:`${cat}類 · 持續性錯誤${pe}`,
-    summary:[['使用卡片數', `${n}`], ['完成類別數', `${cat} / 6`, 1], ['正確數', `${nOk}`], ['總錯誤數', `${err}`], ['持續性錯誤', `${pe}（${pct(n?pe/n:NaN)}）`, 1], ['非持續性錯誤', `${err-pe}`], ['完成第一類所需卡片', firstCat ? `${firstCat}` : '未完成'], ['無法維持定勢', `${fms}`], ['概念層次反應', pct(n?clr/n:NaN)]],
-    note:'持續性錯誤：錯誤反應仍符合上一個已完成類別的規則（第一類別完成前，以第一次明確錯誤所用的維度為準）。無法維持定勢：連續答對5–9張後出錯。概念層次反應：連續3張以上答對中的反應比例。計分為簡化版，未完全依照Heaton手冊。',
+    key:`固著性錯誤數${pe}`,
+    metrics:{pe, cat, trials:n, correct:nOk, errors:err, firstCat:firstCat || null},
+    summary:[
+      ['使用卡片數（number of trials administered）', `${n}`],
+      ['總正確數（total correct）', `${nOk}`],
+      ['總錯誤數（total errors）', `${err}`],
+      ['固著性錯誤數（perseverative errors）', `${pe}`, 1],
+      ['非固著性錯誤數（nonperseverative errors）', `${err - pe}`],
+      ['完成第一類別所需卡片數（trials to complete first category）', firstCat ? `${firstCat}` : '未完成'],
+      ['完成類別數（number of categories completed）', `${cat}`]],
+    note:'',
     trials
   };
 }
 
 /* ================= registry / home ================= */
 const TASKS = {
-  stroop:{code:'SCWT', zh:'史楚普字色測驗', en:'Stroop Color Word Test', ef:'inh', sub:['干擾控制','Interference control'], meta:'約3分鐘', run:runStroop},
+  stroop:{code:'SCWT', zh:'史楚普色字測驗', en:'Stroop Color Word Test', ef:'inh', sub:['干擾控制','Interference control'], meta:'約3分鐘', run:runStroop},
   gonogo:{code:'GO/NO-GO', zh:'Go/No-Go作業', en:'Go/No-Go Task', ef:'inh', sub:['反應抑制','Response inhibition'], meta:'約3分鐘', run:runGoNoGo},
   nback:{code:'N-BACK', zh:'N-back作業', en:'N-back Task', ef:'wm', sub:['視覺空間','Visuospatial'], meta:'約5分鐘', run:runNback},
   digitspan:{code:'DS', zh:'記憶廣度', en:'Digit Span', ef:'wm', sub:['語言','Verbal'], meta:'約8分鐘', run:runDigitSpan},
@@ -951,7 +967,7 @@ const DOODLE = {
   stroop: `<text x="61" y="74" text-anchor="middle" font-size="54" font-weight="700" fill="${SAGE}" style="${SYS}">紅</text>
     <text x="57" y="70" text-anchor="middle" font-size="54" font-weight="700" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round" style="${SYS}">紅</text>
     ${rough('<path d="M90 22 l6 -7 M95 32 l9 -2 M84 15 l1 -9"/><path d="M28 87 C48 83 70 85 90 87"/>')}`,
-  gonogo: `<circle cx="42" cy="54" r="20" fill="${SAGE}"/>${rough('<circle cx="38" cy="50" r="20"/><path d="M74 36 L98 60 M98 36 L74 60"/><path d="M26 86 h26 M76 80 h18"/><path d="M58 20 l5 -8 M66 25 l9 -4"/>')}`,
+  gonogo: `<rect x="22" y="36" width="34" height="34" rx="3" fill="${SAGE}"/>${rough('<rect x="18" y="32" width="34" height="34" rx="3"/><rect x="68" y="32" width="34" height="34" rx="3"/><path d="M76 40 L94 58 M94 40 L76 58"/><path d="M22 84 h26 M72 84 h26"/><path d="M56 20 l5 -8 M64 25 l9 -4"/>')}`,
   nback: (() => {
     const C = [38,60,82], R = [28,50,72]; let dots = '';
     R.forEach((y,ri) => C.forEach((x,ci) => { if ((ri===1 && ci===1) || (ri===0 && ci===2)) return; dots += `<circle cx="${x}" cy="${y}" r="1.8" fill="#141414"/>`; }));
@@ -1011,12 +1027,12 @@ function renderHome(){
         <span class="rtime">${fmtTime(store.results[k].time)}</span>
         <span class="rgo" style="--tint:${TASKS[k].tint}">查看結果${ICON.arrow}</span>
       </button>`).join('')}</div>` : '<p class="empty">完成任一項測驗後，結果會列在這裡，點一下可以再看一次完整結果</p>';
-  $('#cpSum').disabled = $('#cpCsv').disabled = $('#clr').disabled = !n;
+  $('#cpSum').disabled = $('#clr').disabled = !n;
 }
+const rlabel = k => { const m = k.match(/^(.*?)（([A-Za-z0-9][A-Za-z0-9 \-′']*)）$/); return m ? `${m[1]}<span class="rle">${m[2].toLowerCase()}</span>` : k; };
 function resultHTML(T, res, viewing){
   return `<h2>${T.zh}</h2><p class="ename">${T.en}</p>
-    <div class="rgrid">${res.summary.map(([k,v,key]) => `<div class="rbox${key ? ' key' : ''}"${key ? ` style="--tint:${T.tint}"` : ''}><span class="rl">${k}</span><span class="rv">${v}</span></div>`).join('')}</div>
-    <p class="note">${res.note}</p>`;
+    <div class="rgrid">${res.summary.map(([k,v,key]) => `<div class="rbox${key ? ' key' : ''}"${key ? ` style="--tint:${T.tint}"` : ''}><span class="rl">${rlabel(k)}</span><span class="rv">${v}</span></div>`).join('')}</div>`;
 }
 
 let busy = false;
@@ -1038,7 +1054,7 @@ async function launch(key){
     try {
       const res = await T.run();
       res.time = new Date().toISOString();
-      store.results[key] = res; save(); renderHome();
+      store.results[key] = res; save(); renderHome(); queueResult(key, res);
       setProg(`結果${fmtTime(res.time)}`);
       const a = await screen(resultHTML(T, res), [{label:'再做一次', value:'again'}, {label:'回到列表', value:'home', cls:'go'}]);
       again = a === 'again';
@@ -1081,19 +1097,45 @@ function csvText(){
 }
 function copyOut(text, label){
   const msg = $('#copyMsg'), box = $('#copyBox');
-  const fallback = () => { box.hidden = false; box.value = text; box.focus(); box.select(); msg.hidden = false; msg.textContent = `無法自動複製，請長按下方文字全選後複製（${label}）。`; };
+  const fallback = () => { box.hidden = false; box.value = text; box.focus(); box.select(); msg.hidden = false; msg.textContent = `無法自動複製，請長按下方文字全選後複製（${label}）`; };
   box.hidden = true;
   try {
-    navigator.clipboard.writeText(text).then(() => { msg.hidden = false; msg.textContent = `已複製${label}，可以貼到表單或試算表。`; }, fallback);
+    navigator.clipboard.writeText(text).then(() => { msg.hidden = false; msg.textContent = `已複製${label}，可以貼到表單或試算表`; }, fallback);
   } catch(e){ fallback(); }
 }
 $('#cpSum').addEventListener('click', () => copyOut(summaryText(), '結果摘要'));
-$('#cpCsv').addEventListener('click', () => copyOut(csvText(), '逐題資料'));
 $('#clr').addEventListener('click', () => { $('#clrConfirm').hidden = false; });
 $('#clrNo').addEventListener('click', () => { $('#clrConfirm').hidden = true; });
 $('#clrYes').addEventListener('click', () => { store.results = {}; save(); $('#clrConfirm').hidden = true; $('#copyMsg').hidden = true; $('#copyBox').hidden = true; renderHome(); });
 
 renderHome();
+/* ================= result upload (Google Apps Script backend, read by the leaderboard page) ================= */
+const upOn = !!API_URL && typeof fetch === 'function';
+const CID = (() => { let c = ''; try { c = localStorage.getItem('ef-cid') || ''; } catch(e){} if (!c){ c = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); try { localStorage.setItem('ef-cid', c); } catch(e){} } return c; })();
+const loadQ = () => { try { return JSON.parse(localStorage.getItem('ef-outbox') || '[]'); } catch(e){ return []; } };
+const saveQ = q => { try { localStorage.setItem('ef-outbox', JSON.stringify(q)); } catch(e){} };
+let outbox = loadQ(), flushing = false;
+function queueResult(key, res){
+  if (!upOn || !res.metrics) return;
+  outbox.push({nickname:store.pid, task:key, cid:CID, metrics:res.metrics, summary:res.summary.map(([a,b]) => `${a}：${b}`).join('｜'), time:res.time});
+  saveQ(outbox); flushQ();
+}
+async function flushQ(){
+  if (!upOn || flushing || !outbox.length) return;
+  flushing = true;
+  try {
+    while (outbox.length){
+      const r = await fetch(API_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(outbox[0])});
+      if (!r.ok) break;
+      outbox.shift(); saveQ(outbox);
+    }
+  } catch(e){}
+  flushing = false;
+}
+if (upOn){
+  flushQ();
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') flushQ(); });
+}
 })();
 </script>
 </body>

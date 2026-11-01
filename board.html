@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+<title>即時排行榜</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: projector page — header with controls, task tabs, three-step podium, ranks 4–10 below. Same warm-white, single-tone look as the test battery */
+:root{
+  --bg:#F4F3F1; --ink:#151515; --ink-2:#3A3A38; --muted:#77756F; --line:#E4E0D7; --line-2:#D4D0C6; --panel:#ECEAE5;
+  --font-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang TC","Noto Sans TC",sans-serif;
+  color-scheme:light;
+}
+[hidden]{display:none!important}
+body{background:var(--bg); color:var(--ink); font:400 15px/1.65 var(--font-body); letter-spacing:.005em; -webkit-font-smoothing:antialiased}
+.proj{max-width:1100px; margin:0 auto; padding-block:24px 48px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+.lbf-head{display:flex; align-items:center; flex-wrap:wrap; gap:12px}
+.lbf-head h1{margin:0; font:500 clamp(1.5rem,3vw,2.125rem)/1.3 var(--font-body); letter-spacing:.04em}
+.lbf-acts{display:flex; gap:8px; margin-left:auto}
+.empty{margin:24px auto; max-width:640px; padding:18px 20px; background:var(--panel); border-radius:18px; color:var(--muted); text-align:center}
+.lbopen{min-height:36px; padding:0 16px; border-radius:999px; border:1px solid var(--ink); background:transparent; color:var(--ink); font:500 .8125rem/1 var(--font-body); cursor:pointer; touch-action:manipulation}
+.lbopen[aria-pressed="true"]{background:var(--ink); color:#fff}
+.lbtabs{display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 10px}
+.lbtab{min-height:36px; padding:0 14px; border-radius:999px; border:1px solid var(--line-2); background:#FBFAF7; color:var(--ink); font:500 .8125rem/1 var(--font-body); cursor:pointer; touch-action:manipulation}
+.lbtab[aria-pressed="true"]{background:var(--tint); border-color:transparent}
+.lbmeta{display:flex; flex-wrap:wrap; gap:4px 12px; margin:0; font-size:.8125rem; color:var(--muted); font-variant-numeric:tabular-nums}
+.lbdemo{padding:0 10px; border-radius:999px; background:var(--panel); color:var(--ink-2)}
+.podium{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:end; gap:10px; max-width:560px; margin:28px auto 20px}
+.pd{display:flex; flex-direction:column; align-items:center; gap:10px; min-width:0}
+.pd-who{position:relative; display:flex; flex-direction:column; align-items:center; gap:3px; width:100%; text-align:center}
+.pd .av{width:48px; height:48px; font-size:1.125rem}
+.pd.p1 .av{width:60px; height:60px; font-size:1.375rem}
+.crown{position:absolute; top:-20px; width:30px; height:auto}
+.pd.empty .crown{display:none}
+.pd-name{max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:500; margin-top:4px}
+.pd.me .pd-name::after{content:"（你）"; font-size:.75rem; color:var(--muted)}
+.pd-val{font-size:.9375rem; font-weight:500; font-variant-numeric:tabular-nums; min-height:1.3em}
+.pd-mv{min-height:1.2em}
+.pd-block{width:100%; display:grid; place-items:start center; padding-top:10px; border-radius:14px 14px 4px 4px; font-size:1.5rem; font-weight:500; color:rgba(20,20,20,.55); transform-origin:bottom}
+.p1 .pd-block{height:118px; background:#EBCB6B}
+.p2 .pd-block{height:86px; background:#D5D8DD}
+.p3 .pd-block{height:64px; background:#E2B48A}
+.pd.empty .pd-block{opacity:.45}
+.grow .pd-block{animation:lb-grow .8s cubic-bezier(.2,.8,.2,1) both}
+.grow .p2 .pd-block{animation-delay:.12s} .grow .p1 .pd-block{animation-delay:.24s}
+.grow .pd-who{animation:lb-up .5s cubic-bezier(.2,.8,.2,1) both}
+.grow .p3 .pd-who{animation-delay:.45s} .grow .p2 .pd-who{animation-delay:.6s} .grow .p1 .pd-who{animation-delay:.75s}
+.swap{animation:lb-pop .7s cubic-bezier(.2,.8,.2,1)}
+@keyframes lb-grow{from{transform:scaleY(0)} to{transform:none}}
+@keyframes lb-up{from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:none}}
+@keyframes lb-pop{0%{opacity:0; transform:scale(.5) translateY(10px)} 60%{opacity:1; transform:scale(1.1)} 100%{transform:none}}
+.av{display:inline-grid; place-items:center; flex:none; width:32px; height:32px; border-radius:50%; font-weight:500; color:var(--ink); box-shadow:inset 0 0 0 1px rgba(20,20,20,.08)}
+.mvb{display:inline-block; padding:1px 7px; border-radius:999px; font-size:.6875rem; font-weight:500; line-height:1.5; font-variant-numeric:tabular-nums; animation:lb-up .4s both}
+.mvb.up{background:#D7EBDC; color:#24653E}
+.mvb.down{background:var(--panel); color:var(--muted)}
+.mvb.new{background:var(--ink); color:#fff}
+.lblist{list-style:none; margin:0 auto; padding:0; max-width:640px; display:flex; flex-direction:column; gap:8px}
+.lblist li{display:grid; grid-template-columns:2rem auto minmax(0,1fr) auto; align-items:center; gap:12px; padding:10px 18px; border:1px solid var(--line-2); border-radius:18px; background:#FBFAF7}
+.lblist li.me{border-color:var(--ink)}
+.lblist li.gap{margin-top:14px}
+.lblist li.enter{animation:lb-up .5s cubic-bezier(.2,.8,.2,1) both}
+.lblist .rk{font-weight:500; font-variant-numeric:tabular-nums; color:var(--muted)}
+.lblist .nm{display:flex; align-items:center; flex-wrap:wrap; gap:4px 8px; min-width:0}
+.lblist .nmt{overflow-wrap:anywhere}
+.lblist .vl{font-weight:500; font-variant-numeric:tabular-nums; white-space:nowrap}
+.lbf-in{max-width:1100px; margin:0 auto; padding-block:24px 48px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+.lbf-head{display:flex; align-items:center; flex-wrap:wrap; gap:12px}
+.lbf-head h2{margin:0; font:500 clamp(1.5rem,3vw,2.125rem)/1.3 var(--font-body); letter-spacing:.04em}
+.lbf-acts{display:flex; gap:8px; margin-left:auto}
+.proj .lbtabs{justify-content:center; margin-top:24px}
+.proj .lbmeta{justify-content:center}
+.proj .podium{max-width:640px; gap:14px; margin-top:40px; margin-bottom:16px}
+.proj .pd .av{width:56px; height:56px; font-size:1.25rem}
+.proj .pd.p1 .av{width:70px; height:70px; font-size:1.5rem}
+.proj .crown{width:36px; top:-25px}
+.proj .pd-name{font-size:1.125rem}
+.proj .pd-val{font-size:1.25rem}
+.proj .p1 .pd-block{height:clamp(84px,13vh,130px); font-size:1.875rem}
+.proj .p2 .pd-block{height:clamp(62px,9.5vh,96px); font-size:1.625rem}
+.proj .p3 .pd-block{height:clamp(46px,7vh,70px); font-size:1.5rem}
+.proj .lblist{max-width:820px}
+.proj .lblist{gap:6px}
+.proj .lblist li{font-size:1.0625rem; padding:8px 22px}
+.proj .lblist .av{width:34px; height:34px}
+.confetti{position:fixed; inset:0; width:100%; height:100%; z-index:45; pointer-events:none}
+@media (prefers-reduced-motion: reduce){ .grow .pd-block, .grow .pd-who, .swap, .mvb, .lblist li.enter{animation:none} }
+</style>
+</head>
+<body>
+<div class="proj">
+  <div class="lbf-head"><h1>即時排行榜</h1><div class="lbf-acts"><button type="button" class="lbopen" id="lbAuto" aria-pressed="false">自動輪播</button><button type="button" class="lbopen" id="lbFs">全螢幕</button></div></div>
+  <div class="lbstage" id="lbStage">
+        <div class="lbtabs" id="lbTabs"></div>
+        <p class="lbmeta"><span id="lbMeta"></span><span class="lbdemo" id="lbDemo" hidden>示範資料，正式網站會顯示全班的即時結果</span></p>
+        <div class="podium" id="lbPodium"><div class="pd p2" data-i="1"><div class="pd-who"><span class="av"></span><span class="pd-name">—</span><span class="pd-val" data-v="NaN"></span><span class="pd-mv"></span></div><div class="pd-block"><span>2</span></div></div><div class="pd p1" data-i="0"><div class="pd-who"><svg class="crown" viewBox="0 0 32 22" aria-hidden="true"><path d="M3 19 L1 5 L10 11 L16 1 L22 11 L31 5 L29 19 Z" fill="#EBCB6B" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="av"></span><span class="pd-name">—</span><span class="pd-val" data-v="NaN"></span><span class="pd-mv"></span></div><div class="pd-block"><span>1</span></div></div><div class="pd p3" data-i="2"><div class="pd-who"><span class="av"></span><span class="pd-name">—</span><span class="pd-val" data-v="NaN"></span><span class="pd-mv"></span></div><div class="pd-block"><span>3</span></div></div></div>
+        <p class="empty" id="lbEmpty" hidden></p>
+        <ol class="lblist" id="lbList"></ol>
+      </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+// 貼上和測驗網頁相同的 Google Apps Script 網址（https://script.google.com/macros/s/…/exec）；留空時顯示示範資料
+const API_URL = 'https://script.google.com/macros/s/AKfycbzyY88Fs59GWEA6MOI54zNntiWi96kn8mAERVzDnivEaGNO97EoMXPz5OhWVTzJIy4/exec';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct = x => isNaN(x) ? '—' : Math.round(x*100) + '%';
+const ms = x => isNaN(x) ? '—' : Math.round(x) + ' ms';
+const TASKS = {
+  stroop:{zh:'史楚普色字測驗', tint:'#F2DD8C'}, gonogo:{zh:'Go/No-Go作業', tint:'#F3BDB5'}, nback:{zh:'N-back作業', tint:'#BCD4EE'},
+  digitspan:{zh:'記憶廣度', tint:'#CCD9BD'}, dccs:{zh:'卡片向度改變分類作業', tint:'#DAD0EA'}, wcst:{zh:'威斯康辛卡片分類測驗', tint:'#F1CEA6'}
+};
+const ORDER = ['stroop','gonogo','nback','digitspan','dccs','wcst'];
+/* ================= leaderboard (Google Apps Script backend) ================= */
+const RANK = {
+  stroop:{label:'干擾分數', v:m => m.intf, dir:-1, fmt:v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1)},
+  gonogo:{label:'No-Go誤按率', v:m => m.com, dir:1, tie:m => m.rt, fmt:v => pct(v)},
+  nback:{label:'平均正確率', v:m => m.accMean, dir:-1, tie:m => -m.acc3, fmt:v => pct(v)},
+  digitspan:{label:'總答對題數', v:m => m.total, dir:-1, tie:m => -(m.bwd + m.seq), fmt:v => `${Math.round(v)}`},
+  dccs:{label:'雙向度反應時間', v:m => m.biRT, dir:1, tie:m => -m.biAcc, fmt:v => ms(v)},
+  wcst:{label:'固著性錯誤數', v:m => m.pe, dir:1, tie:m => m.trials, fmt:v => `${Math.round(v)}`}
+};
+const lbOn = !!API_URL && typeof fetch === 'function';
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lbRows = [], lbTask = 'stroop', lbAt = null, lbBusy = false, lbErr = false;
+async function loadBoard(){
+  if (!lbOn || lbBusy) return;
+  lbBusy = true;
+  try {
+    const r = await fetch(API_URL + (API_URL.includes('?') ? '&' : '?') + 't=' + Date.now());
+    const j = await r.json();
+    if (j && Array.isArray(j.rows)){ lbRows = j.rows; lbAt = new Date(); lbErr = false; }
+  } catch(e){ lbErr = true; }
+  lbBusy = false;
+  renderBoard(false);
+}
+function cmp(R, a, b){
+  if (a.v !== b.v) return R.dir * (a.v - b.v);
+  const ta = isFinite(a.t) ? a.t : Infinity, tb = isFinite(b.t) ? b.t : Infinity;
+  return ta === tb ? 0 : (ta < tb ? -1 : 1);
+}
+function boardFor(k){
+  const R = RANK[k], best = new Map();
+  for (const row of lbRows){
+    if (row.k !== k || !row.m) continue;
+    const v = R.v(row.m);
+    if (v == null || !isFinite(v)) continue;
+    const key = (row.c || '') + '|' + row.n;
+    const cur = best.get(key), cand = {k:key, n:row.n, c:row.c, v, t:R.tie ? R.tie(row.m) : 0};
+    if (!cur || cmp(R, cand, cur) < 0) best.set(key, cand);
+  }
+  return [...best.values()].sort((a,b) => cmp(R, a, b));
+}
+
+/* demo data: only when the page has no backend (e.g. inside Claude), clearly labelled */
+const DEMO = !lbOn;
+if (DEMO){
+  const names = ['小熊','阿凱','Mia','豆花','Leo','柚子','阿哲','Coco','小魚','Ken','布丁','Yuki'];
+  const r = (a, b) => a + Math.random() * (b - a);
+  const gen = {
+    stroop:() => ({intf:Math.round(r(-80,80)) / 10}),
+    gonogo:() => ({com:Math.round(r(0,6)) / 16, rt:Math.round(r(300,460))}),
+    nback:() => ({accMean:r(.6,.97), acc3:r(.45,.95)}),
+    digitspan:() => { const f = Math.round(r(4,8)), b = Math.round(r(3,7)), s = Math.round(r(3,7)); return {fwd:f, bwd:b, seq:s, total:Math.round(r(14,30))}; },
+    dccs:() => ({biAcc:r(.8,1), biRT:Math.round(r(560,1150))}),
+    wcst:() => ({pe:Math.round(r(4,26)), trials:Math.round(r(78,128))})
+  };
+  names.forEach((n,i) => ORDER.forEach(k => { if (Math.random() < .8) lbRows.push({n, c:'demo' + i, k, m:gen[k]()}); }));
+  lbAt = new Date();
+  setInterval(() => {
+    if (document.visibilityState !== 'visible' || false) return;
+    const i = Math.floor(Math.random() * names.length);
+    lbRows.push({n:names[i], c:'demo' + i, k:lbTask, m:gen[lbTask]()});
+    lbAt = new Date(); renderBoard(false);
+  }, 3500);
+}
+
+/* rendering */
+const MEDAL = ['#EBCB6B', '#D5D8DD', '#E2B48A'];
+const AVC = ['#F2DD8C','#F3BDB5','#BCD4EE','#CCD9BD','#DAD0EA','#F1CEA6'];
+const avColor = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.codePointAt(0)) >>> 0; return AVC[h % AVC.length]; };
+const initial = s => [...String(s).trim()][0] || '?';
+const isMe = () => false;
+const prevRank = {}, prevTop = {};
+function tween(el, to, fmt){
+  const from = parseFloat(el.dataset.v);
+  el.dataset.v = to;
+  if (REDUCE || !isFinite(from) || from === to){ el.textContent = fmt(to); return; }
+  const t0 = performance.now(), d = 800;
+  const step = now => { const p = Math.min(1, (now - t0) / d), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(from + (to - from) * e); if (p < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function moveBadge(key, rank, task){
+  const pr = prevRank[task] && prevRank[task][key];
+  if (pr == null) return prevRank[task] ? '<span class="mvb new">NEW</span>' : '';
+  if (pr > rank) return `<span class="mvb up">▲${pr - rank}</span>`;
+  if (pr < rank) return `<span class="mvb down">▼${rank - pr}</span>`;
+  return '';
+}
+function restart(el, cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+const CROWN = '<svg class="crown" viewBox="0 0 32 22" aria-hidden="true"><path d="M3 19 L1 5 L10 11 L16 1 L22 11 L31 5 L29 19 Z" fill="#EBCB6B" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+function renderBoard(switched){
+  const stage = $('#lbStage'); if (!stage) return;
+  $('#lbTabs').innerHTML = ORDER.map(k => `<button type="button" class="lbtab" data-lb="${k}" aria-pressed="${k === lbTask}" style="--tint:${TASKS[k].tint}">${TASKS[k].zh}</button>`).join('');
+  const task = lbTask, R = RANK[task], list = boardFor(task);
+  const ranks = {}; list.forEach((x,i) => { ranks[x.k] = i; });
+  // podium
+  const pod = $('#lbPodium');
+  if (switched) restart(pod, 'grow');
+  [0,1,2].forEach(i => {
+    const slot = pod.querySelector(`.pd[data-i="${i}"]`), x = list[i];
+    const who = slot.querySelector('.pd-who'), val = slot.querySelector('.pd-val');
+    const key = x ? x.k : '';
+    if (slot.dataset.k !== key || switched){
+      slot.dataset.k = key;
+      slot.querySelector('.av').textContent = x ? initial(x.n) : '';
+      slot.querySelector('.av').style.background = x ? avColor(x.n) : 'transparent';
+      slot.querySelector('.pd-name').textContent = x ? x.n : '—';
+      slot.classList.toggle('me', !!x && isMe(x));
+      slot.classList.toggle('empty', !x);
+      val.dataset.v = 'NaN';
+      if (!switched && x) restart(who, 'swap');
+    }
+    slot.querySelector('.pd-mv').innerHTML = x && !switched ? moveBadge(x.k, i, task) : '';
+    if (x) tween(val, x.v, R.fmt); else val.textContent = '';
+  });
+  // rows 4–10 (+ me)
+  const me = list.findIndex(isMe);
+  const items = list.slice(3, 10).map((x,j) => ({x, i:j + 3}));
+  if (me >= 10) items.push({x:list[me], i:me, gap:true});
+  syncRows($('#lbList'), items, R, task, switched);
+  // celebrate a new #1
+  const top = list[0] ? list[0].k : '';
+  if (!switched && prevTop[task] !== undefined && top && prevTop[task] !== top) confetti();
+  prevTop[task] = top;
+  prevRank[task] = ranks;
+  $('#lbEmpty').hidden = list.length > 0;
+  $('#lbEmpty').textContent = lbAt || DEMO ? '還沒有人完成這項測驗' : (lbErr ? '暫時無法連線，稍後會自動重試' : '載入中');
+  const at = lbAt ? ` · 更新於${String(lbAt.getHours()).padStart(2,'0')}:${String(lbAt.getMinutes()).padStart(2,'0')}:${String(lbAt.getSeconds()).padStart(2,'0')}` : '';
+  $('#lbMeta').textContent = `依${R.label}排名${R.rule ? '（' + R.rule + '）' : ''} · ${list.length}人${at}`;
+  $('#lbDemo').hidden = !DEMO;
+}
+function syncRows(ol, items, R, task, switched){
+  const first = new Map();
+  [...ol.children].forEach(li => first.set(li.dataset.k, li.getBoundingClientRect().top));
+  const old = new Map([...ol.children].map(li => [li.dataset.k, li]));
+  const out = [];
+  items.forEach(({x, i, gap}) => {
+    let li = old.get(x.k);
+    if (!li){
+      li = document.createElement('li'); li.dataset.k = x.k;
+      li.innerHTML = '<span class="rk"></span><span class="av"></span><span class="nm"><span class="nmt"></span><span class="mv"></span></span><span class="vl" data-v="NaN"></span>';
+      if (!switched && !REDUCE) li.classList.add('enter');
+    }
+    old.delete(x.k);
+    li.classList.toggle('me', isMe(x));
+    li.classList.toggle('gap', !!gap);
+    li.querySelector('.rk').textContent = i + 1;
+    const av = li.querySelector('.av'); av.textContent = initial(x.n); av.style.background = avColor(x.n);
+    li.querySelector('.nmt').textContent = x.n + (isMe(x) ? '（你）' : '');
+    li.querySelector('.mv').innerHTML = switched ? '' : moveBadge(x.k, i, task);
+    tween(li.querySelector('.vl'), x.v, R.fmt);
+    out.push(li);
+  });
+  old.forEach(li => li.remove());
+  out.forEach(li => ol.appendChild(li));
+  if (REDUCE || switched) return;
+  out.forEach(li => {
+    const f = first.get(li.dataset.k); if (f == null) return;
+    const dy = f - li.getBoundingClientRect().top;
+    if (Math.abs(dy) > 1 && li.animate) li.animate([{transform:`translateY(${dy}px)`}, {transform:'none'}], {duration:650, easing:'cubic-bezier(.2,.8,.2,1)'});
+  });
+}
+function confetti(){
+  if (REDUCE) return;
+  const cv = document.createElement('canvas'); cv.className = 'confetti'; document.body.appendChild(cv);
+  const ctx = cv.getContext('2d'), dpr = Math.min(2, devicePixelRatio || 1);
+  const W = cv.width = innerWidth * dpr, H = cv.height = innerHeight * dpr;
+  const pod = $('#lbPodium .pd[data-i="0"]').getBoundingClientRect();
+  const ox = (pod.left + pod.width / 2) * dpr, oy = (pod.top + 30) * dpr;
+  const cols = ['#EBCB6B','#F3BDB5','#BCD4EE','#CCD9BD','#DAD0EA','#F1CEA6','#141414'];
+  const ps = Array.from({length:140}, () => { const a = -Math.PI/2 + (Math.random() - .5) * 2.2, s = (6 + Math.random() * 9) * dpr; return {x:ox, y:oy, vx:Math.cos(a) * s, vy:Math.sin(a) * s, w:(4 + Math.random() * 5) * dpr, h:(7 + Math.random() * 7) * dpr, r:Math.random() * 6, vr:(Math.random() - .5) * .4, c:cols[Math.floor(Math.random() * cols.length)]}; });
+  const t0 = performance.now();
+  const step = now => {
+    const t = now - t0; ctx.clearRect(0, 0, W, H);
+    ps.forEach(p => { p.vy += .32 * dpr; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.globalAlpha = Math.max(0, 1 - t / 2200); ctx.fillStyle = p.c; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore(); });
+    if (t < 2200) requestAnimationFrame(step); else cv.remove();
+  };
+  requestAnimationFrame(step);
+}
+
+/* controls */
+let autoTimer = null;
+function setAuto(on){
+  clearInterval(autoTimer); autoTimer = null;
+  $('#lbAuto').setAttribute('aria-pressed', on);
+  $('#lbAuto').textContent = on ? '停止輪播' : '自動輪播';
+  if (on) autoTimer = setInterval(() => { lbTask = ORDER[(ORDER.indexOf(lbTask) + 1) % ORDER.length]; renderBoard(true); }, 12000);
+}
+$('#lbAuto').addEventListener('click', () => setAuto(!autoTimer));
+$('#lbFs').addEventListener('click', () => {
+  try {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else { const p = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(() => {}); }
+  } catch(e){}
+});
+document.addEventListener('fullscreenchange', () => { $('#lbFs').textContent = document.fullscreenElement ? '離開全螢幕' : '全螢幕'; });
+$('#lbTabs').addEventListener('click', e => { const b = e.target.closest('[data-lb]'); if (b && b.dataset.lb !== lbTask){ lbTask = b.dataset.lb; if (autoTimer) setAuto(true); renderBoard(true); } });
+document.addEventListener('keydown', e => {
+  const i = ORDER.indexOf(lbTask);
+  if (e.key === 'ArrowRight'){ lbTask = ORDER[(i + 1) % ORDER.length]; renderBoard(true); }
+  else if (e.key === 'ArrowLeft'){ lbTask = ORDER[(i + ORDER.length - 1) % ORDER.length]; renderBoard(true); }
+});
+renderBoard(true);
+if (lbOn){
+  loadBoard();
+  setInterval(() => { if (document.visibilityState === 'visible') loadBoard(); }, 5000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') loadBoard(); });
+}
+})();
+</script>
+</body>
+</html>
