@@ -104,7 +104,7 @@ body{background:var(--bg); color:var(--ink); font:400 15px/1.65 var(--font-body)
 (() => {
 'use strict';
 // 貼上和測驗網頁相同的 Google Apps Script 網址（https://script.google.com/macros/s/…/exec）；留空時顯示示範資料
-const API_URL = 'https://script.google.com/macros/s/AKfycbzyY88Fs59GWEA6MOI54zNntiWi96kn8mAERVzDnivEaGNO97EoMXPz5OhWVTzJIy4/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycby4IbYApHZSjvMIe1kjMItyh0ChN53-Tui8dUeKZjwFWzgFHYdeRIEzhtswCPG3T_w/exec';
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pct = x => isNaN(x) ? '—' : Math.round(x*100) + '%';
