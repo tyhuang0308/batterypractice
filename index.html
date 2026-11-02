@@ -33,13 +33,13 @@ a{color:var(--ink)}
 .hero{display:flex; flex-direction:column; align-items:center; text-align:center; padding-top:20px}
 .hmark{width:40px; height:40px; color:var(--sage-2)}
 .hero h1{margin:16px 0 0; font:500 clamp(1.5rem,3.4vw,2.125rem)/1.35 var(--font-body); letter-spacing:.04em; text-wrap:balance}
-.frames{position:relative; width:100%; display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:clamp(10px,2.4vw,28px); align-items:start; margin-top:clamp(36px,6vw,64px)}
+.frames{position:relative; width:100%; display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:clamp(8px,2vw,24px); align-items:start; margin-top:clamp(36px,6vw,64px)}
 .frame svg{display:block; width:100%; height:auto}
-.f1{margin-top:16%} .f2{margin-top:46%; width:84%; justify-self:center} .f3{margin-top:2%} .f4{margin-top:32%; width:90%; justify-self:center} .f5{margin-top:0; width:94%; justify-self:end} .f6{margin-top:42%}
+.f1{margin-top:16%} .f2{margin-top:46%; width:84%; justify-self:center} .f3{margin-top:2%} .f4{margin-top:32%; width:90%; justify-self:center} .f5{margin-top:0; width:94%; justify-self:end} .f6{margin-top:42%} .f7{margin-top:10%; width:88%; justify-self:center}
 .fdeco{position:absolute; right:-1%; top:-30%; width:clamp(64px,11vw,128px); height:auto; pointer-events:none}
 @media (max-width:600px){
-  .frames{grid-template-columns:repeat(3,minmax(0,1fr)); row-gap:4px}
-  .f1{margin-top:10%} .f2{margin-top:34%} .f3{margin-top:0} .f4{margin-top:6%} .f5{margin-top:30%} .f6{margin-top:2%}
+  .frames{grid-template-columns:repeat(4,minmax(0,1fr)); row-gap:4px}
+  .f1{margin-top:10%} .f2{margin-top:34%} .f3{margin-top:0} .f4{margin-top:24%} .f5{margin-top:6%} .f6{margin-top:30%} .f7{margin-top:2%}
   .fdeco{top:-14%; right:-2%}
 }
 .br{font-size:.75rem; font-weight:500; letter-spacing:.06em; font-variant-numeric:tabular-nums}
@@ -245,6 +245,16 @@ a{color:var(--ink)}
 .dd-rules > span{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
 .dd-mini{display:inline-grid; place-items:center; width:26px; height:26px; border-radius:6px; background:#fff; box-shadow:0 0 0 1px var(--line-2)}
 .dd-mini svg{width:20px; height:20px}
+.tol{display:flex; flex-direction:column; align-items:center; gap:10px; width:100%; max-width:560px; padding:12px 16px; box-sizing:border-box; position:relative}
+.tol-goal{display:flex; align-items:center; gap:12px; padding:8px 14px; border-radius:16px; background:var(--panel)}
+.tol-lab{font-size:.8125rem; font-weight:500; color:var(--ink-2)}
+.tol-mini{width:clamp(110px,30vw,170px); height:auto; display:block}
+.tol-info{display:flex; gap:16px; font-size:.875rem; color:var(--muted); font-variant-numeric:tabular-nums}
+.tol-wrap{width:100%}
+.tol-board{width:100%; max-height:46vh; height:auto; display:block; touch-action:manipulation; cursor:pointer}
+.tol-board .lift{filter:drop-shadow(0 6px 6px rgba(0,0,0,.18))}
+.tol-fb{position:absolute; inset:0; display:grid; place-items:center; background:rgba(244,243,241,.92); border-radius:12px; text-align:center; padding:0 16px}
+.tol-fb:empty{display:none}
 </style>
 </head>
 <body>
@@ -271,7 +281,7 @@ a{color:var(--ink)}
     </section>
 
     <section class="sec" aria-labelledby="tasksH">
-      <div class="sec-head"><h2 id="tasksH">測驗</h2><div class="hprog"><div class="htrack" role="progressbar" aria-label="完成進度" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="pBar"><i id="pFill"></i></div><span id="pTxt">已完成0/6</span></div></div>
+      <div class="sec-head"><h2 id="tasksH">測驗</h2><div class="hprog"><div class="htrack" role="progressbar" aria-label="完成進度" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="pBar"><i id="pFill"></i></div><span id="pTxt">已完成0/7</span></div></div>
       <div class="idrow"><label for="sid">暱稱</label><input id="sid" type="text" autocomplete="off" spellcheck="false" maxlength="20" placeholder="請輸入暱稱" aria-describedby="sidErr"><p class="iderr" id="sidErr" role="alert" hidden>請先輸入暱稱，再開始測驗</p></div>
       <div class="tgrid" id="groups"></div>
     </section>
@@ -485,7 +495,7 @@ async function runStroop(){
     const kind = kinds[i], B = SBLOCK[kind];
     rCode.textContent = `SCWT ${i+1}/3`;
     setProg('');
-    await screen(`<p class="eyebrow">第${i+1}關，共3關 · 45秒</p><h2>${B.name}</h2>${B.inst}<div class="demo">${B.demo}</div>`);
+    await screen(`<p class="eyebrow">第${i+1}關，共3關 · 45秒</p><h2>${B.name}</h2>${B.inst}<div class="demo">${B.demo}</div>`, [{label:'開始正式測驗', value:'go', cls:'go'}]);
     const out = await stroopBlock(kind);
     trials.push(...out);
     res[kind] = {n: out.length, ok: out.filter(t => t.acc).length};
@@ -547,7 +557,7 @@ async function runGoNoGo(){
     <p>畫面中央會很快地出現圖形</p>
     <div class="demo"><span style="width:44px;display:block">${GO_SVG}</span><span>看到<strong>綠色正方形</strong>，請盡快按下「Go」的按鈕</span></div>
     <div class="demo"><span style="width:44px;display:block">${NOGO_SVG}</span><span>看到<strong>紅色正方形</strong>，<strong>不按</strong></span></div>
-    <p>請答得又快又正確</p>`);
+    <p>請答得又快又正確</p>`, [{label:'開始練習', value:'go', cls:'go'}]);
   const btn = () => setResp('<button type="button" class="rbtn match" data-r="p" data-k=" |Enter">Go</button>', 1);
   let gate;
   do {
@@ -636,7 +646,7 @@ async function runNback(){
   const trials = [], summary = [], accs = [], accN = [], rtN = [];
   for (const n of [1,2,3]){
     await screen(`<p class="eyebrow">第${n}關，共3關</p><h2>第${n}關：${n}-back</h2>
-      <p>當藍色方塊出現的位置和<strong>往前數第${n}個</strong>位置相同時，請盡快按下「相同」的按鈕；不同就不按</p>${nbDemo(n)}`);
+      <p>當藍色方塊出現的位置和<strong>往前數第${n}個</strong>位置相同時，請盡快按下「相同」的按鈕；不同就不按</p>${nbDemo(n)}`, [{label:'開始練習', value:'go', cls:'go'}]);
     let gate;
     do {
       nbackResp(); await getReady();
@@ -720,7 +730,7 @@ async function dsBlock(kind, i){
   setProg('');
   await screen(`<p class="eyebrow">第${i+1}關，共3關</p><h2>${K.name}</h2>
     <p>數字會一個一個出現<br>${K.rule}</p>
-    <div class="demo"><span class="dsx">${ex.join(' ')}</span><span>→ 輸入${K.ans(ex).join(' ')}</span></div>`);
+    <div class="demo"><span class="dsx">${ex.join(' ')}</span><span>→ 輸入${K.ans(ex).join(' ')}</span></div>`, [{label:'開始練習', value:'go', cls:'go'}]);
   let gate;
   do {
     dsKeypad(); await getReady();
@@ -819,7 +829,7 @@ async function runDCCS(){
         <span><strong>形狀</strong> → 按<span class="dd-mini">${dccsSVG('rabbit','b')}</span>藍色兔子</span>
       </div>
     </div>
-    <p>請答得又快又正確</p>`);
+    <p>請答得又快又正確</p>`, [{label:'開始練習', value:'go', cls:'go'}]);
   let gate;
   do {
     dccsResp(); await getReady();
@@ -895,7 +905,7 @@ async function runWCST(){
   await screen(`<h2>威斯康辛卡片分類測驗</h2><p class="ename">Wisconsin Card Sorting Test</p>
     <p>這是一個特別分類遊戲，請將中間顯示的卡片根據某個規則分類到下面四堆卡片的其中一堆</p>
     <p>電腦不會告訴你分類規則，但在分類後，會告訴你分類「正確」或「錯誤」</p>
-    <p>分類規則會在你不知道的時候改變，如果發現分類規則改變了，請試著找出新的分類規則</p>`);
+    <p>分類規則會在你不知道的時候改變，如果發現分類規則改變了，請試著找出新的分類規則</p>`, [{label:'開始正式測驗', value:'go', cls:'go'}]);
   const deck = wcstDeck(128);
   setResp(WKEYS.map((k,i) => `<button type="button" class="rbtn card" data-r="${i+1}" data-k="${i+1}" aria-label="${wName(k)}">${wCard(k)}</button>`).join(''), 4);
   await getReady();
@@ -940,6 +950,117 @@ async function runWCST(){
   };
 }
 
+/* ================= TOWER OF LONDON ================= */
+const TOL_CAP = [3, 2, 1];
+const TOL_START = 'rg|b|';
+const TOL_SET = {practice:['r|b|g', 'rb||g'],
+  test:['|br|g','|bg|r','rbg||','r|gb|','gr|b|','b|gr|','gb||r','|gb|r','gb|r|','grb||','b|g|r','gr||b']};
+const TOL_COL = {r:'#E0342A', g:'#1E9A48', b:'#2F6BE8'};
+const tolParse = s => s.split('|').map(p => p.split('').filter(Boolean));
+const tolKey = st => st.map(p => p.join('')).join('|');
+function tolMin(from, to){
+  const goal = tolKey(to), seen = new Set([tolKey(from)]); let q = [from], d = 0;
+  while (q.length){
+    if (q.some(s => tolKey(s) === goal)) return d;
+    const nq = [];
+    for (const s of q) for (let a=0;a<3;a++) if (s[a].length) for (let b=0;b<3;b++){
+      if (a === b || s[b].length >= TOL_CAP[b]) continue;
+      const t = s.map(p => p.slice()); t[b].push(t[a].pop());
+      const k = tolKey(t); if (!seen.has(k)){ seen.add(k); nq.push(t); }
+    }
+    q = nq; d++;
+  }
+  return Infinity;
+}
+// pegs at x = 60 / 150 / 240; peg heights follow capacity
+function tolSVG(st, sel, cls){
+  const X = [60, 150, 240], base = 172, R = 19, step = 40;
+  let g = `<rect x="14" y="${base}" width="272" height="10" rx="5" fill="#CFCBC2"/>`;
+  X.forEach((x,i) => {
+    const h = TOL_CAP[i] * step + 8;
+    g += `<rect x="${x-4}" y="${base-h}" width="8" height="${h}" rx="4" fill="#B9B4AA"/>`;
+    st[i].forEach((c,j) => {
+      const lifted = sel === i && j === st[i].length - 1;
+      const y = lifted ? 22 : base - R - 2 - j * step;
+      g += `<circle cx="${x}" cy="${y}" r="${R}" fill="${TOL_COL[c]}"${lifted ? ' class="lift"' : ''}/>`;
+    });
+    if (cls) g += `<rect data-peg="${i}" x="${x-45}" y="0" width="90" height="${base+10}" fill="transparent"/>`;
+  });
+  return `<svg class="${cls || 'tol-mini'}" viewBox="${cls ? '0 0 300 186' : '0 44 300 142'}" aria-hidden="true">${g}</svg>`;
+}
+function tolTap(){
+  const s = session, board = rStim.querySelector('.tol-board');
+  return guard(new Promise(res => {
+    const h = e => { const t = e.target.closest('[data-peg]'); if (!t) return; e.preventDefault(); const tm = evtTime(e); cleanup(); res({peg:+t.dataset.peg, t:tm}); };
+    function cleanup(){ board.removeEventListener('pointerdown', h); s.cleanups.delete(cleanup); }
+    board.addEventListener('pointerdown', h); s.cleanups.add(cleanup);
+  }));
+}
+async function tolProblem(goalStr, prac, idx, total){
+  const goal = tolParse(goalStr), st = tolParse(TOL_START), min = tolMin(st, goal), limit = Math.max(8, min * 3);
+  setProg(`${prac ? '練習' : ''}${idx}/${total}`);
+  rStim.innerHTML = `<div class="tol">
+    <div class="tol-goal"><span class="tol-lab">目標</span>${tolSVG(goal)}</div>
+    <div class="tol-info"><span class="tol-mv">已移動0步</span></div>
+    <div class="tol-wrap">${tolSVG(st, null, 'tol-board')}</div>
+    <div class="tol-fb"></div></div>`;
+  const draw = sel => { rStim.querySelector('.tol-wrap').innerHTML = tolSVG(st, sel, 'tol-board'); rStim.querySelector('.tol-mv').textContent = `已移動${moves}步`; };
+  await frame();
+  const t0 = performance.now();
+  let moves = 0, sel = null, tFirst = null, solved = false;
+  while (moves < limit){
+    const {peg, t} = await tolTap();
+    if (sel === null){
+      if (!st[peg].length) continue;
+      if (tFirst === null) tFirst = t;
+      sel = peg; draw(sel);
+    } else if (peg === sel){ sel = null; draw(sel); }
+    else if (st[peg].length < TOL_CAP[peg]){
+      st[peg].push(st[sel].pop()); sel = null; moves++; draw(sel);
+      if (tolKey(st) === goalStr){ solved = true; break; }
+    } else if (st[peg].length){ sel = peg; draw(sel); }
+  }
+  const tEnd = performance.now();
+  const perfect = solved && moves === min;
+  const fb = rStim.querySelector('.tol-fb');
+  fb.innerHTML = !solved ? '<div class="fbk slow">已超過步數上限</div>'
+    : prac ? (perfect ? '<div class="fbk ok">✓ 正確</div>' : '<div class="fbk err">完成了，但不是最少步數</div>')
+    : '<div class="fbk ok">完成</div>';
+  await sleep(prac ? 1400 : 900);
+  rStim.innerHTML = '';
+  return {block: prac ? 'practice' : 'test', trial:idx, cond:`min=${min}`, stim:goalStr, cresp:String(min), resp:String(moves),
+    acc: perfect ? 1 : 0, rt: tFirst === null ? null : Math.round(tFirst - t0), solved, moves, min, plan: tFirst === null ? NaN : tFirst - t0, exec: tFirst === null ? NaN : tEnd - tFirst};
+}
+async function runTOL(){
+  await screen(`<h2>倫敦塔測驗</h2><p class="ename">Tower of London</p>
+    <p>移動下方的球，排成和上方「目標」一樣的樣子<br>先點一顆球把它拿起來，再點要放的柱子；每次只能移動最上面的一顆球，三根柱子由左到右最多能放3、2、1顆球<br>請想好再開始移動，用最少的步數完成</p>`, [{label:'開始練習', value:'go', cls:'go'}]);
+  setResp('', 1);
+  let gate;
+  do {
+    await getReady();
+    const out = [];
+    for (let i=0;i<TOL_SET.practice.length;i++) out.push(await tolProblem(TOL_SET.practice[i], true, i+1, TOL_SET.practice.length));
+    gate = await practiceGate(out.filter(t => t.acc).length, out.length, false);
+  } while (gate === 'again');
+  setResp('', 1);
+  await getReady();
+  const trials = [];
+  for (let i=0;i<TOL_SET.test.length;i++) trials.push(await tolProblem(TOL_SET.test[i], false, i+1, TOL_SET.test.length));
+  const solvedMin = trials.filter(t => t.acc).length;
+  const totalMoves = trials.reduce((a,t) => a + t.moves, 0), minSum = trials.reduce((a,t) => a + t.min, 0);
+  const plan = mean(trials.map(t => t.plan).filter(x => !isNaN(x))), exec = mean(trials.map(t => t.exec).filter(x => !isNaN(x)));
+  return {
+    key:`最少步數完成${solvedMin}/${trials.length}`,
+    metrics:{solvedMin, totalMoves, excess:totalMoves - minSum, plan, exec},
+    summary:[
+      ['最少步數完成題數（problems solved in the minimum number of moves）', `${solvedMin}/${trials.length}`, 1],
+      ['總步數（total moves）', `${totalMoves}`],
+      ['平均計畫時間（mean time to first move）', ms(plan)]],
+    note:'',
+    trials: trials.map(({solved, moves, min, plan, exec, ...t}) => t)
+  };
+}
+
 /* ================= registry / home ================= */
 const TASKS = {
   stroop:{code:'SCWT', zh:'史楚普色字測驗', en:'Stroop Color Word Test', ef:'inh', sub:['干擾控制','Interference control'], meta:'約3分鐘', run:runStroop},
@@ -947,14 +1068,16 @@ const TASKS = {
   nback:{code:'N-BACK', zh:'N-back作業', en:'N-back Task', ef:'wm', sub:['視覺空間','Visuospatial'], meta:'約5分鐘', run:runNback},
   digitspan:{code:'DS', zh:'記憶廣度', en:'Digit Span', ef:'wm', sub:['語言','Verbal'], meta:'約8分鐘', run:runDigitSpan},
   dccs:{code:'DCCS', zh:'卡片向度改變分類作業', en:'Dimensional Change Card Sort', ef:'cf', meta:'約5分鐘', run:runDCCS},
-  wcst:{code:'WCST', zh:'威斯康辛卡片分類測驗', en:'Wisconsin Card Sorting Test', ef:'cf', meta:'最多約12分鐘', run:runWCST}
+  wcst:{code:'WCST', zh:'威斯康辛卡片分類測驗', en:'Wisconsin Card Sorting Test', ef:'cf', meta:'最多約12分鐘', run:runWCST},
+  tol:{code:'TOL', zh:'倫敦塔測驗', en:'Tower of London', ef:'hi', meta:'約6分鐘', run:runTOL}
 };
-const TINT = {stroop:'#F2DD8C', gonogo:'#F3BDB5', nback:'#BCD4EE', digitspan:'#CCD9BD', dccs:'#DAD0EA', wcst:'#F1CEA6'};
+const TINT = {stroop:'#F2DD8C', gonogo:'#F3BDB5', nback:'#BCD4EE', digitspan:'#CCD9BD', dccs:'#DAD0EA', wcst:'#F1CEA6', tol:'#C6E0DC'};
 Object.keys(TINT).forEach(k => { TASKS[k].tint = TINT[k]; });
 const EF = {
   inh:{en:'Inhibitory control', zh:'抑制控制'},
   wm:{en:'Working memory', zh:'工作記憶'},
-  cf:{en:'Cognitive flexibility', zh:'認知彈性'}
+  cf:{en:'Cognitive flexibility', zh:'認知彈性'},
+  hi:{en:'Planning', zh:'計畫'}
 };
 
 /* hand-drawn doodles, 120×100 */
@@ -979,7 +1102,9 @@ const DOODLE = {
     <g transform="rotate(7 82 52)">${rough('<rect x="60" y="22" width="46" height="60" rx="4" fill="#fff"/>')}<g transform="translate(65 34) scale(.36)"><g fill="${SAGE}" transform="translate(7 7)">${BOAT}</g>${rough(BOAT, '6.5')}</g></g>`,
   wcst: `${rough('<rect x="34" y="20" width="44" height="62" rx="4" transform="rotate(-16 56 51)"/><rect x="38" y="18" width="44" height="62" rx="4" transform="rotate(-6 60 49)" fill="#fff"/>')}
     ${rough('<rect x="44" y="18" width="44" height="62" rx="4" transform="rotate(6 66 49)" fill="#fff"/>')}
-    <g transform="rotate(6 66 49)">${[32,49,66].map(y => `<polygon points="${triPts(68,y+2)}" fill="#D6D4CF"/>`).join('')}${rough([32,49,66].map(y => `<polygon points="${triPts(66,y)}"/>`).join(''))}</g>`
+    <g transform="rotate(6 66 49)">${[32,49,66].map(y => `<polygon points="${triPts(68,y+2)}" fill="#D6D4CF"/>`).join('')}${rough([32,49,66].map(y => `<polygon points="${triPts(66,y)}"/>`).join(''))}</g>`,
+  tol: `<circle cx="34" cy="70" r="9" fill="${SAGE}"/><circle cx="34" cy="51" r="9" fill="${SAGE}"/><circle cx="62" cy="70" r="9" fill="${SAGE}"/>
+    ${rough('<path d="M14 82 H106"/><path d="M30 82 V30 M58 82 V46 M86 82 V62"/><circle cx="30" cy="67" r="9"/><circle cx="30" cy="48" r="9"/><circle cx="58" cy="67" r="9"/><path d="M70 30 C80 20 92 22 96 34 M92 28 l4 6 6 -3"/>')}`
 };
 
 const LS = 'ef-battery-v1';
@@ -993,7 +1118,7 @@ const ICON = {
   arrow:'<svg viewBox="0 0 26 8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 4 H25 M21 1 L25 4 L21 7"/></svg>',
   check:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 L6.5 11.5 L12.5 5"/></svg>'
 };
-const ORDER = ['stroop','gonogo','nback','digitspan','dccs','wcst'];
+const ORDER = ['stroop','gonogo','nback','digitspan','dccs','wcst','tol'];
 /* hero: centred title above a staggered row of hand-drawn frames */
 $('#frames').innerHTML = ORDER.map((k,i) =>
   `<div class="frame f${i+1}"><svg viewBox="0 0 120 132">${rough('<rect x="4" y="4" width="112" height="96" rx="3" fill="#FFFFFF"/><path d="M7 7 L113 6 L114 97"/><path d="M8 114 H60 M8 123 H36"/>', '2')}<g transform="translate(8 7) scale(.866)">${DOODLE[k]}</g></svg></div>`).join('')
